@@ -1,3 +1,11 @@
 #Class file
 
 *.class
+
+#bootstrap dir
+
+Front/bootstrap-4.5.3-dist/
+
+#intellijdir
+
+.idea/

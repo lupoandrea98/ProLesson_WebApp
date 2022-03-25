@@ -40,7 +40,6 @@ public class ProvaMain {
         for(Prenotazioni p : pren) {
             System.out.println(p);
         }
-
         System.out.println();
 
         System.out.println("=========================PRIMA PROVA INSERIMENTI=============================");

@@ -1,7 +1,5 @@
 package dao;
 
-import dao.*;
-
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -217,10 +215,9 @@ public class Prenotazioni {
     }
 
     //per ciascun corso deve essere possibile visualizzare la lista delle possibili ripetizioni, indicandone i docenti
+    //passo per parametro l'arraylist per ridurre al minimo le query verso il db
+    public static ArrayList<Prenotazioni> possiblePrenotation(Corso c, ArrayList<Prenotazioni> pren) {
 
-    public static ArrayList<Prenotazioni> possiblePrenotation(Corso c) {
-
-        ArrayList<Prenotazioni> pren = Prenotazioni.queryDB();
         ArrayList<Prenotazioni> result = new ArrayList<>();
         for(Prenotazioni p : pren) {
             if(p.getCorso() == c.getId()) {
