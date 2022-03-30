@@ -1,7 +1,6 @@
 package com.example.loginvue;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import dao.*;
 
 import javax.servlet.ServletException;
@@ -27,27 +26,15 @@ public class LogIn extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         //System.out.println("Richiamata correttamente");
-        String action = request.getParameter("action");
-        switch (action) {
-            case "login":
-                postVueJquery(request, response);
-                break;
-            case "insertdoc":
-                insertDoc(request, response);
-                break;
-            default:
-                System.out.println("No action bounded");
-                break;
-        }
-
+        login_post(request, response);
     }
 
-    private void postVueJquery(HttpServletRequest request, HttpServletResponse response) throws IOException{
+    private void login_post(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String account = request.getParameter("account");
         String pw = request.getParameter("password");
-        Boolean check = false;
+        boolean check = false;
         System.out.println("ricevuti " + account + " " + pw);
 
         if(account != null) {
@@ -112,7 +99,7 @@ public class LogIn extends HttpServlet {
     private void postJSJquery(HttpServletRequest request, HttpServletResponse response)throws IOException {
         String account = request.getParameter("account");
         String pw = request.getParameter("password");
-        Boolean success = false;
+        boolean success = false;
 
         HttpSession session = request.getSession();
         System.out.println("Sessione attuale = " + session.getAttribute("ruolo"));

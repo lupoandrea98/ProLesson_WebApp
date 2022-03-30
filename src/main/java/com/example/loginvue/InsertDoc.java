@@ -16,7 +16,6 @@ import java.io.PrintWriter;
 public class InsertDoc extends HttpServlet {
 
     public void init() { DAO.registerDriver(); }  //Se non registro i driver non posso entrare nel DB
-
     /*
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
