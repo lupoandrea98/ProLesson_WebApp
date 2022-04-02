@@ -33,7 +33,7 @@
     <div class="col">
         <form>
             <div class="form-group" id="LogIn">
-                <span v-bind="success" id="errLog"> {{success}} </span>
+                <span v-if="seen" class="errLog"> Utente o password errati </span>
                 <input v-model="account" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Username">
                 <input v-model="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
                 <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="sendLog">LogIn</button>
@@ -48,36 +48,7 @@
         </form>
     </div>
 
-    <script>
-        const LogIn = new Vue({
-            el:'#LogIn',
-            data: {
-                account: "",
-                password: "",
-                check: "",
-                link: "login",
-                success:""
-            },
-
-            methods: {
-                sendLog: function (event){
-                    var self = this;
-                    $.post(this.link, {account:this.account, password:this.password, check:this.check},function(data) {
-                        self.check = data;
-                        console.log("Valore ritornato= " + self.check);
-                        //posso controllare direttamente data senza passare da un'altra variabile?
-                        //NO mi conviene mantenere il valore all'interno di una variabile in modo permettere anche successivi utilizzi nella pagina
-                        if(self.check === "true") {
-                            console.log("login effettuato");
-                        }else {
-                            this.success += "Utente o password errati";
-                            console.log("errore login");
-                        }
-                    });
-                }
-            }
-        })
-    </script>
+    <script src="login.js"></script>
 
 </div>
 

@@ -33,7 +33,7 @@ public class Utente {
 
     public int getRuolo() { return isAdmin; }
 
-    public boolean getAdmin(){ return isAdmin != 0; }//restituisce true se l'utente è amministrato
+    public String getAdmin(){ return (isAdmin == 1) ? "admin" : "utente"; }//restituisce true se l'utente è amministrato
 
     @Override
     public String toString() {
@@ -72,11 +72,11 @@ public class Utente {
     }
 
     //In questo modo dovrei poter inserire utenti
-    public static void insertDB(Utente newUtente) {
+    public static void insertDB(String account, String password, Integer isAdmin) {
         Connection conn1 = null;
 
-        String query = "INSERT INTO `utente` (`id`, `username`, `password`, `isAdmin`) VALUES (NULL, '" + newUtente.getAccount() +
-                "', '" + newUtente.getPsw() + "', '" + newUtente.getRuolo() + "');";
+        String query = "INSERT INTO `utente` (`id`, `username`, `password`, `isAdmin`) VALUES (NULL, '" + account +
+                "', '" + password + "', '" + isAdmin + "');";
 
         try {
             conn1 = DriverManager.getConnection(dao.getUrl1(),dao.getUser(), dao.getPassword());
@@ -101,6 +101,7 @@ public class Utente {
                 }
             }
         }
+        System.out.println("New user insert into database correctly");
     }
 
     public static void removeDB(Utente ut) {
