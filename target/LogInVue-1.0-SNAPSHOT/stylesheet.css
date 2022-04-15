@@ -27,8 +27,12 @@ h1, h3{
     margin-top: 3%;
 }
 
-#errLog {
+.errLog {
     color: red;
+}
+
+.successLog {
+    color: limegreen;
 }
 
 

@@ -1,4 +1,4 @@
-package com.example.loginvue;
+package com.servlet;
 
 import dao.DAO;
 import dao.Docente;
@@ -53,8 +53,39 @@ public class InsertDoc extends HttpServlet {
         }finally {
             out.close();
         }
+    }
 
+    private void insertDoc(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Boolean success = false;
+        HttpSession session = request.getSession();
+        System.out.println("Ruolo di sessione " + (String) session.getAttribute("ruolo"));
+        if (session.getAttribute("ruolo") == null)
+            System.out.println("Ruolo di sessione non presente, impossibile procedere con le operazioni desiderate");
 
+        if (session.getAttribute("ruolo").equals("admin")) {
+
+            String nome = request.getParameter("nome");
+            String cognome = request.getParameter("cognome");
+
+            if (nome != null && cognome != null) {
+                Docente.insertDB(nome, cognome);
+                success = true;
+            } else {
+                System.out.println("Parametri dal form nulli");
+            }
+        } else
+            System.out.println("Non sei amministratore figlio di puttana, muori male");
+
+        //response per avvertire l'utente del fallimento nell'inserire un nuovo docente.
+        PrintWriter out = response.getWriter();
+        try {
+            response.setContentType("text/plain");
+            if (success) out.println("Docente inserito correttamente");
+            else out.println("Impossibile inserire il docente");
+            out.flush();
+        } finally {
+            out.close();
+        }
     }
 
 

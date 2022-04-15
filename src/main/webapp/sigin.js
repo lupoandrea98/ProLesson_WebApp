@@ -41,7 +41,6 @@ var SigIn = new Vue({
             }else{
                 SigIn.seen_pw = true;
             }
-
         }
     }
 })

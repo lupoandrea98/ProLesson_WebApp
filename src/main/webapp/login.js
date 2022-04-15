@@ -7,7 +7,7 @@ var LogIn = new Vue({
         link: "login",
         seen: false
     },
-    //TODO: il front end del login va a troie.
+
     methods: {
         sendLog: function (event){
             var login_data = {
@@ -16,7 +16,6 @@ var LogIn = new Vue({
                 action: this.action
             };
             $.post(this.link, login_data, function(data) {
-                console.log("Valore ritornato= " + data);
                 //posso controllare direttamente data senza passare da un'altra variabile?
                 //NO mi conviene mantenere il valore all'interno di una variabile in modo permettere anche successivi utilizzi nella pagina
                 if(data === true) {
