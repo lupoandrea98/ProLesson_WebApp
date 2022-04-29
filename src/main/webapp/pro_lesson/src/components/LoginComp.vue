@@ -16,7 +16,7 @@
                 <label class="form-check-label" for="exampleCheck1">Remember me</label>
             </div>
             <div class="form-reg" >
-                <a href="sigin.html" title="Vai a schermata di registrazione"> Non sei ancora registrato? Clicca qui!</a>
+                <router-link href="sigin.html" title="Vai a schermata di registrazione" to="/sigin"> Non sei ancora registrato? Clicca qui!</router-link>
             </div>
         </form>
     </div>
