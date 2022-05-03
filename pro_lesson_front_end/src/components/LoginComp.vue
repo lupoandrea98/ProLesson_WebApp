@@ -6,7 +6,7 @@
     <div class="col">
         <form>
             <div class="form-group">
-                <span v-if="seen" class="errLog"> Utente o password errati </span>
+                <label v-if="seen" class="errLog"> Utente o password errati </label>
                 <input v-model="account" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Username">
                 <input v-model="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
                 <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="sendLog">LogIn</button>
@@ -40,7 +40,7 @@ export default({
             action:"login",
             account: "",
             password: "",
-            link: "login",
+            link: "http://localhost:8080/TWEB_war_exploded/api/login",
             seen: false
         }
     },
@@ -60,10 +60,12 @@ export default({
                     console.log("login effettuato");
                 }else {
                     this.seen = true;
-                    console.log("errore login");
+                    console.log("errore login " + this.seen);
                 }
             });
         }
     }
 })
 </script>
+
+

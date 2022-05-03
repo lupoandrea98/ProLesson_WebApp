@@ -1,4 +1,4 @@
-package com.servlet;
+package servlet;
 
 import dao.DAO;
 import dao.Docente;
