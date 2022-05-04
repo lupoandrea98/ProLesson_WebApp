@@ -1,4 +1,5 @@
 <template>
+
 <blockquote class="blockquote text-center">
     <h3>LogIn</h3>
 </blockquote>
@@ -7,6 +8,7 @@
         <form>
             <div class="form-group">
                 <label v-if="seen" class="errLog"> Utente o password errati </label>
+                <label v-if="!seen" class="successLog"> LogIn effettuato con successo </label>
                 <input v-model="account" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Username">
                 <input v-model="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
                 <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="sendLog">LogIn</button>
@@ -52,20 +54,31 @@ export default({
                 password:this.password,
                 action: this.action
             };
-            $.post(this.link, login_data, function(data) {
+            $.post(this.link, login_data, (data) => {
                 //posso controllare direttamente data senza passare da un'altra variabile?
                 //NO mi conviene mantenere il valore all'interno di una variabile in modo permettere anche successivi utilizzi nella pagina
                 if(data === true) {
                     this.seen = false;
-                    console.log("login effettuato");
+                    console.log("login effettuato" + this.seen);
                 }else {
                     this.seen = true;
                     console.log("errore login " + this.seen);
                 }
             });
         }
+
     }
 })
 </script>
 
+<style scoped>
+.errLog {
+    color: red;
+}
+
+.successLog {
+    color: limegreen;
+}
+
+</style>
 

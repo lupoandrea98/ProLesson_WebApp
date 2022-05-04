@@ -14,7 +14,7 @@
       <tbody>
       <tr>
           <th scope="row" class="table-info">15-16</th>
-          <td>Mark</td>
+          <TableBox ora=15 giorno="Lun"></TableBox>
           <td>Otto</td>
           <td>@mdo</td>
           <td>Otto</td>
@@ -50,8 +50,13 @@
 </template>
 
 <script>
+import TableBox from '@/components/TableBox.vue'
+
 export default {
-  name: 'HomePage'
+  name: 'HomePage',
+  components: {
+      TableBox
+  }
  
 }
 </script>

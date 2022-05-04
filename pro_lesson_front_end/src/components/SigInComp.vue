@@ -40,7 +40,7 @@ export default {
             account: "",
             password: "",
             conf_pw: "",
-            link:"login",
+            link:"http://localhost:8080/TWEB_war_exploded/api/login",
             seen_user:false,
             seen_pw:false,
             seen_success: false
@@ -60,7 +60,7 @@ export default {
             if(this.password === this.conf_pw){
                 this.seen_pw = false;
                 console.log("password corrette");
-                $.post(this.link, this_data, function (data){
+                $.post(this.link, this_data, (data) => {
                     var recieved = [];
                     recieved = data;
                     if(recieved[0] === true) {
