@@ -28,7 +28,6 @@ public class TableBox extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         getPrenotazioni(request,response);
     }
-
         public void getPrenotazioni(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         PrintWriter out = response.getWriter();
@@ -37,18 +36,18 @@ public class TableBox extends HttpServlet {
         String giorno = request.getParameter("giorno");
         response.setContentType("application/json");
 
-        ArrayList<dao.Prenotazioni> pren = dao.Prenotazioni.queryDB();
-        ArrayList<dao.Prenotazioni> output = new ArrayList<>();
-        for (dao.Prenotazioni p : pren) {
+        //Sono queste le prenotazioni da mostrare in tabella sul sito
+        ArrayList<AvaiablePrenotation> outPren = new ArrayList<>();
+        ArrayList<AvaiablePrenotation> avPren = AvaiablePrenotation.avPren;
+
+        for (AvaiablePrenotation p : avPren) {
             if (p.getGiorno().equals(giorno) && p.getOrario() == ora) {
-                output.add(p);
+                outPren.add(p);
             }
         }
-
         try {
             Gson gson = new Gson();
-            String checkString = gson.toJson(output);
-            System.out.println(checkString);
+            String checkString = gson.toJson(outPren);
             out.println(checkString);
         }finally {
             out.flush();

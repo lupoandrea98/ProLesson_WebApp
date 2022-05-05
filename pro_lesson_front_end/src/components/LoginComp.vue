@@ -7,8 +7,8 @@
     <div class="col">
         <form>
             <div class="form-group">
-                <label v-if="seen" class="errLog"> Utente o password errati </label>
-                <label v-if="!seen" class="successLog"> LogIn effettuato con successo </label>
+                <label v-if="fail" class="errLog"> Utente o password errati </label>
+                <label v-if="success" class="successLog"> LogIn effettuato con successo </label>
                 <input v-model="account" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Username">
                 <input v-model="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
                 <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="sendLog">LogIn</button>
@@ -43,7 +43,8 @@ export default({
             account: "",
             password: "",
             link: "http://localhost:8080/TWEB_war_exploded/api/login",
-            seen: false
+            fail: false,
+            success: false
         }
     },
 
@@ -58,10 +59,12 @@ export default({
                 //posso controllare direttamente data senza passare da un'altra variabile?
                 //NO mi conviene mantenere il valore all'interno di una variabile in modo permettere anche successivi utilizzi nella pagina
                 if(data === true) {
-                    this.seen = false;
+                    this.success = true;
+                    this.fail = false;
                     console.log("login effettuato" + this.seen);
                 }else {
-                    this.seen = true;
+                    this.fail = true;
+                    this.success = false;
                     console.log("errore login " + this.seen);
                 }
             });

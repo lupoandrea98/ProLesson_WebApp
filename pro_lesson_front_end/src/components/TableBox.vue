@@ -1,11 +1,10 @@
 <!--componente con il quale vado a mostrare in tabella la prenotazione inerente-->
 
 <template>
-    <!--vado ad usare un v-for per stampare tutti i risultati nella casella, facendo un bind con i dati che ricevo dal server -->
     <div>
         <ul id="example-1">
             <li v-for="prenotazione in prenotazioni" :key="prenotazione">
-                {{ prenotazione }}
+                {{ prenotazione.corso }} - {{ prenotazione.docente}}
             </li>
         </ul>
     </div>
@@ -32,10 +31,11 @@ export default({
                 ora: this.ora,
                 giorno: this.giorno
             }
-            console.log("im the post");
+
             $.post(this.link, requestData, (data) => {
-                console.log("post response");
+                //this.prenotazioni.add(JSON.parse(data).text)
                 this.prenotazioni = data;
+                
             });
         }
     },
