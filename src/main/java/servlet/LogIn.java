@@ -6,10 +6,7 @@ import dao.Utente;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -84,44 +81,58 @@ public class LogIn extends HttpServlet {
     }
 
     private void login_post(HttpServletRequest request, HttpServletResponse response, ArrayList<Utente> utenti) throws IOException {
-        response.setContentType("application/json");
+        //Configuro la response
         PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        Gson gson = new Gson();
+        Cookie user = null;
+        //Prelevo i dati provenienti dalla post
         String account = request.getParameter("account");
         String pw = request.getParameter("password");
+        //Variabile che attesta il successo o il fallimento del login
         boolean check = false;
+        //Stampo in console i dati ricevuti
         System.out.println("ricevuti " + account + " " + pw);
+        //Creo una HttpSession nuova
         HttpSession session = request.getSession();
-        System.out.println("Sessione attuale = " + session.getAttribute("ruolo"));
         if (account != null) {
             Utente exists = Utente.exist(utenti, account, pw);
-            if (exists != null) {  //Se l'account esiste allora imposto gli attributi con i suoi valori
-
+            if (exists != null) {  //Se l'account esiste allora imposto gli attributi di sessione con i suoi valori
                 request.setAttribute("account", account);
                 request.setAttribute("password", pw);
                 session.setAttribute("ruolo", exists.getRuolo());
                 System.out.println(account + " ha loggato come " + exists.getAdmin());
-
+                //Creo un oggetto cookie con il nome utente
+                user = new Cookie("user", account);
+                System.out.println("cookie: " + user.getValue());
+                //Aggiungo il cookie utente alla response
+                response.addCookie(user);
                 check = true;
             } else {                //Altrimenti imposto delle stringhe vuote
                 request.setAttribute("account", "");
                 request.setAttribute("password", "");
                 session.setAttribute("ruolo", "ospite");
                 System.out.println(account + " non è registrato");
+                user = new Cookie("user", "ospite");
+                //response.addCookie(user);
+                //TODO: Perchè non mi vanno i cookie nella response?
             }
         } else {
             System.out.println("account parameter null");
         }
         //Passo alla pagina una risposta tramite Json.
         try {
-            Gson gson = new Gson();
-            String checkString = gson.toJson(check);
-            System.out.println(checkString);
-            out.println(checkString);
+            ArrayList<String> JSON = new ArrayList<>();
+            String cookieJson = gson.toJson(user);
+            String checkJson = gson.toJson(check);
+            JSON.add(checkJson);
+            JSON.add(cookieJson);
+            System.out.println(JSON);
+            out.println(JSON);
         } finally {
             out.flush();
             out.close();
         }
-
         System.out.println("Ruolo di sessione memorizzato = " + session.getAttribute("ruolo"));
 
     }

@@ -3,7 +3,7 @@ package dao;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DAO<T> {
+public class DAO {
 
     private final String url1 = "jdbc:mysql://localhost:3306/project";
     private final String user = "root";

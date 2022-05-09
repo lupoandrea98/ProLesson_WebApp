@@ -5,7 +5,7 @@
 </blockquote>
 <div class="container">
     <div class="col">
-        <form>
+        <form action="login" method="POST">
             <div class="form-group">
                 <label v-if="fail" class="errLog"> Utente o password errati </label>
                 <label v-if="success" class="successLog"> LogIn effettuato con successo </label>
@@ -44,7 +44,8 @@ export default({
             password: "",
             link: "http://localhost:8080/TWEB_war_exploded/api/login",
             fail: false,
-            success: false
+            success: false,
+            biscotto: null
         }
     },
 
@@ -58,30 +59,27 @@ export default({
             $.post(this.link, login_data, (data) => {
                 //posso controllare direttamente data senza passare da un'altra variabile?
                 //NO mi conviene mantenere il valore all'interno di una variabile in modo permettere anche successivi utilizzi nella pagina
-                if(data === true) {
+                if(data[0] === true) {
                     this.success = true;
                     this.fail = false;
-                    console.log("login effettuato" + this.seen);
+                    console.log("login effettuato");
+                    //const mamt = this.$cookies.isKey("user");
+                    console.log(data[1]);
                 }else {
                     this.fail = true;
                     this.success = false;
-                    console.log("errore login " + this.seen);
+                    console.log("errore login");
+                    const mamt = this.$cookies.isKey("user");
+                    console.log(mamt);
                 }
             });
+        },
+
+        getCookies() {
+            this.biscotto = this.$cookies.get('user');
         }
 
     }
 })
 </script>
-
-<style scoped>
-.errLog {
-    color: red;
-}
-
-.successLog {
-    color: limegreen;
-}
-
-</style>
 

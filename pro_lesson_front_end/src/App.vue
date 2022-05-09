@@ -32,7 +32,7 @@ export default({
 
 <style lang="scss">
     #app {
-        font-family: Avenir, Helvetica, Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
@@ -51,4 +51,31 @@ export default({
         }
     }
     }
+
+    .form-group, .form-reg{
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+    }
+
+    #inputPassword, #inputUsername{
+        margin-top: 2%;
+        margin-bottom: 2%;
+    }
+
+    .form-group.form-check{
+        margin-top: auto;
+    }
+    h1, h3{
+        margin-top: 3%;
+        margin-bottom: 2%;
+    }
+    .errLog {
+        color: red;
+    }
+
+    .successLog {
+        color: limegreen;
+    }
+
 </style>

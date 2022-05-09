@@ -1,10 +1,10 @@
 <!--componente con il quale vado a mostrare in tabella la prenotazione inerente-->
 
 <template>
-    <div>
-        <ul id="example-1">
+    <div class="lesson">
+        <ul>
             <li v-for="prenotazione in prenotazioni" :key="prenotazione">
-                {{ prenotazione.corso }} - {{ prenotazione.docente}}
+                {{ prenotazione.corso }} 
             </li>
         </ul>
     </div>
@@ -33,7 +33,7 @@ export default({
             }
 
             $.post(this.link, requestData, (data) => {
-                //this.prenotazioni.add(JSON.parse(data).text)
+                
                 this.prenotazioni = data;
                 
             });
@@ -48,3 +48,7 @@ export default({
 
 })
 </script>
+
+<style scoped>
+
+</style>

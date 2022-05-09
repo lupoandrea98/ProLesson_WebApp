@@ -5,7 +5,7 @@
 <div class="container">
 
     <div class="col">
-        <form>
+        <form action="sigin" method="POST">
             <div class="form-group" id="this">
                 <span v-if="seen_success" class="successLog"> Nuovo utente registrato correttamente </span>
                 <span v-if="seen_pw" class="errLog"> Le password inserite sono diverse </span>
@@ -81,3 +81,7 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+
+</style>
