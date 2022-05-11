@@ -39,7 +39,6 @@ export default({
     name: 'LogIn',
     data() {
         return {
-            action:"login",
             account: "",
             password: "",
             link: "http://localhost:8080/TWEB_war_exploded/api/login",
@@ -54,23 +53,16 @@ export default({
             var login_data = {
                 account:this.account,
                 password:this.password,
-                action: this.action
             };
             $.post(this.link, login_data, (data) => {
-                //posso controllare direttamente data senza passare da un'altra variabile?
-                //NO mi conviene mantenere il valore all'interno di una variabile in modo permettere anche successivi utilizzi nella pagina
                 if(data[0] === true) {
                     this.success = true;
                     this.fail = false;
                     console.log("login effettuato");
-                    //const mamt = this.$cookies.isKey("user");
-                    console.log(data[1]);
                 }else {
                     this.fail = true;
                     this.success = false;
                     console.log("errore login");
-                    const mamt = this.$cookies.isKey("user");
-                    console.log(mamt);
                 }
             });
         },

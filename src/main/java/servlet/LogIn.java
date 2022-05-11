@@ -7,13 +7,13 @@ import dao.Utente;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
 @WebServlet(name = "login", value = "/login")
 public class LogIn extends HttpServlet {
-    private final int ID = 0;
 
     public void init() {
         DAO.registerDriver();
@@ -21,63 +21,14 @@ public class LogIn extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        System.out.println("Richiesti parametri sessione");
+        getSessionParameters(request, response);
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //System.out.println("Richiamata correttamente");
-        String action = request.getParameter("action");
         ArrayList<Utente> utenti = Utente.queryDB();
-        switch (action) {
-            case "login":
-                login_post(request, response, utenti);
-                break;
-            case "sigin":
-                sigin_post(request, response, utenti);
-                break;
-            default:
-                System.out.println("action not valid");
-        }
-    }
-
-    private void sigin_post(HttpServletRequest request, HttpServletResponse response, ArrayList<Utente> utenti) throws IOException {
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        String account = request.getParameter("account");
-        String pw = request.getParameter("password");
-        boolean check_reg = false;
-        boolean check_user = false;
-
-        System.out.println("ricevuti " + account + " " + pw);
-
-        if (account != null) {
-            Utente exists = Utente.exist(utenti, account, pw);
-            if (exists != null) {
-                System.out.println("Account già esistente!");
-                check_user = true;
-                //L'UTENTE ESISTE E DEVO MANDARE AL FRONT L'AVVISO NOME UTENTE ESISTENTE.
-
-            } else {
-                //Posso inserire l'utente nel database.
-                Utente.insertDB(account, pw, 0);
-                check_reg = true;
-            }
-
-        }
-        ArrayList<Boolean> checks = new ArrayList<Boolean>();
-        checks.add(check_user);
-        checks.add(check_reg);
-        try {
-            Gson gson = new Gson();
-            String checkString = gson.toJson(checks);
-            System.out.println(checkString);
-            out.println(checkString);
-        } finally {
-            out.flush();
-            out.close();
-        }
-
+        login_post(request, response, utenti);
     }
 
     private void login_post(HttpServletRequest request, HttpServletResponse response, ArrayList<Utente> utenti) throws IOException {
@@ -85,7 +36,6 @@ public class LogIn extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         Gson gson = new Gson();
-        Cookie user = null;
         //Prelevo i dati provenienti dalla post
         String account = request.getParameter("account");
         String pw = request.getParameter("password");
@@ -98,32 +48,23 @@ public class LogIn extends HttpServlet {
         if (account != null) {
             Utente exists = Utente.exist(utenti, account, pw);
             if (exists != null) {  //Se l'account esiste allora imposto gli attributi di sessione con i suoi valori
-                request.setAttribute("account", account);
-                request.setAttribute("password", pw);
+                session.setAttribute("account", exists);
                 session.setAttribute("ruolo", exists.getRuolo());
                 System.out.println(account + " ha loggato come " + exists.getAdmin());
-                //Creo un oggetto cookie con il nome utente
-                user = new Cookie("user", account);
-                System.out.println("cookie: " + user.getValue());
-                //Aggiungo il cookie utente alla response
-                response.addCookie(user);
                 check = true;
             } else {                //Altrimenti imposto delle stringhe vuote
-                request.setAttribute("account", "");
-                request.setAttribute("password", "");
+                session.setAttribute("account", "");
+                session.setAttribute("password", "");
                 session.setAttribute("ruolo", "ospite");
                 System.out.println(account + " non è registrato");
-                user = new Cookie("user", "ospite");
-                //response.addCookie(user);
-                //TODO: Perchè non mi vanno i cookie nella response?
             }
         } else {
             System.out.println("account parameter null");
         }
         //Passo alla pagina una risposta tramite Json.
         try {
-            ArrayList<String> JSON = new ArrayList<>();
-            String cookieJson = gson.toJson(user);
+            ArrayList<Object> JSON = new ArrayList<>();
+            String cookieJson = gson.toJson(session.getAttribute("account"));
             String checkJson = gson.toJson(check);
             JSON.add(checkJson);
             JSON.add(cookieJson);
@@ -134,7 +75,23 @@ public class LogIn extends HttpServlet {
             out.close();
         }
         System.out.println("Ruolo di sessione memorizzato = " + session.getAttribute("ruolo"));
+    }
 
+    public void getSessionParameters(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false); //Non crea una nuova sessione utente se non ne esiste nessuna
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        Gson gson = new Gson();
+
+        if(!session.isNew()){
+            try {
+                System.out.println(gson.toJson(session.getAttribute("account")));
+                out.println(gson.toJson(session.getAttribute("account")));
+            } finally {
+                out.flush();
+                out.close();
+            }
+        }
     }
 
 }

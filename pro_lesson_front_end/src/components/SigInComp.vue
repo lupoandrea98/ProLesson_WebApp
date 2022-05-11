@@ -36,11 +36,10 @@ export default {
     name: 'SigIn',
     data() {
         return{
-            action: "this",
             account: "",
             password: "",
             conf_pw: "",
-            link:"http://localhost:8080/TWEB_war_exploded/api/login",
+            link:"http://localhost:8080/TWEB_war_exploded/api/sigin",
             seen_user:false,
             seen_pw:false,
             seen_success: false
@@ -55,7 +54,6 @@ export default {
             var this_data = {
                 account: this.account,
                 password: this.password,
-                action: this.action
             };
             if(this.password === this.conf_pw){
                 this.seen_pw = false;
@@ -81,7 +79,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

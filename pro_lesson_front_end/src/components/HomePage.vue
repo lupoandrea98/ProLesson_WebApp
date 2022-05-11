@@ -1,8 +1,6 @@
 <template>
-    <h1>
-          {{ cookie }}
-      </h1>
-  <table class="table">
+
+  <table class="table table-bordered">
       <caption> Lezioni disponibili </caption>
       
       <thead>
@@ -50,34 +48,40 @@
       </tr>
       </tbody>
   </table>
-  <button @click="getCookie"> getCookie </button>
-
 </template>
 
 <script>
 import TableBox from '@/components/TableBox.vue'
+import $ from '../../node_modules/jquery'
 
 export default {
     name: 'HomePage',
     data() {
         return {
-            cookie: null
+            login_link: "http://localhost:8080/TWEB_war_exploded/api/login",
+            isAdmin: false
         }
-    },
-
-    components: {
-        TableBox
     },
 
     methods: {
-        getCookie() {
-            const mamt = this.$cookies.get('user');
-            console.log(mamt);
+        getSessionInfo: function(){
+            $.get(this.login_link, (data) => {
+                if(data.isAdmin === 1)
+                    this.isAdmin = true;
+            });
+            this.$emit('isAdminEvent', this.isAdmin)
+            console.log(this.isAdmin);
         }
+    },
+
+    mounted(){
+        this.getSessionInfo();
+    },
+
+    components: {
+        TableBox,
     }
 
-
-   
  
 }
 </script>
@@ -95,11 +99,11 @@ table {
 .tableBox{
     border: 2px solid ;
     border-radius: 18px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-right: 5px;
-    margin-left: 5px;
-    padding-top: 15px;
+    margin: 5px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
     background: #BEE5EB
 }
 

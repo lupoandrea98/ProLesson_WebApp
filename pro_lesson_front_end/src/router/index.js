@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import HomePage from '../components/HomePage.vue'
 import LogIn from '../components/LoginComp.vue'
 import SigIn from '../components/SigInComp.vue'
+import Prenotation from '../components/PrenotationPage.vue'
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/sigin',
     name: 'sigin',
     component: SigIn
+  },
+  {
+    path: '/prenotation',
+    name: 'prenotation',
+    component: Prenotation
   }
 ]
 

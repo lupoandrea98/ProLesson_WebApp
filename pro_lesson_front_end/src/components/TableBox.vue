@@ -3,10 +3,11 @@
 <template>
     <div class="lesson">
         <ul>
-            <li v-for="prenotazione in prenotazioni" :key="prenotazione">
-                {{ prenotazione.corso }} 
+            <li v-for="prenotazione in prenotazioni.slice(0,1)" :key="prenotazione">
+                {{ prenotazione.corso }} e altre {{ prenotazioni.length }} 
             </li>
         </ul>
+        
     </div>
 
 </template>
@@ -19,7 +20,9 @@ export default({
     data() {
         return{
             link: "http://localhost:8080/TWEB_war_exploded/api/tablebox",
-            prenotazioni: []
+            prenotazioni: [],
+            prenotazione: '',
+            length: null,
         }
     },
 
@@ -35,6 +38,7 @@ export default({
             $.post(this.link, requestData, (data) => {
                 
                 this.prenotazioni = data;
+                this.length = data.length;
                 
             });
         }
@@ -48,7 +52,3 @@ export default({
 
 })
 </script>
-
-<style scoped>
-
-</style>

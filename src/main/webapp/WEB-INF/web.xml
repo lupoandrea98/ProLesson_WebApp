@@ -35,6 +35,14 @@
         <url-pattern>/api/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>logout</servlet-name>
+        <url-pattern>/api/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sigin</servlet-name>
+        <url-pattern>/api/sigin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>tablebox</servlet-name>
         <url-pattern>/api/tablebox</url-pattern>
     </servlet-mapping>
