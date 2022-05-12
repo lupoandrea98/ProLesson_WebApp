@@ -66,11 +66,19 @@ export default {
     methods: {
         getSessionInfo: function(){
             $.get(this.login_link, (data) => {
-                if(data.isAdmin === 1)
+                console.log(data);
+                
+                if(data.isAdmin === 1){
                     this.isAdmin = true;
+                    
+                }else{
+                    this.isAdmin = false;
+                    
+                }
+                    
             });
-            this.$emit('isAdminEvent', this.isAdmin)
-            console.log(this.isAdmin);
+            //this.$emit('isAdminEvent', this.isAdmin)
+            //console.log(this.isAdmin);
         }
     },
 

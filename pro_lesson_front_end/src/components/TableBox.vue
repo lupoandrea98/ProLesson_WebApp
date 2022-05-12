@@ -20,9 +20,7 @@ export default({
     data() {
         return{
             link: "http://localhost:8080/TWEB_war_exploded/api/tablebox",
-            prenotazioni: [],
-            prenotazione: '',
-            length: null,
+            prenotazioni: []
         }
     },
 
@@ -38,7 +36,6 @@ export default({
             $.post(this.link, requestData, (data) => {
                 
                 this.prenotazioni = data;
-                this.length = data.length;
                 
             });
         }

@@ -21,7 +21,6 @@ public class LogIn extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Richiesti parametri sessione");
         getSessionParameters(request, response);
     }
 
@@ -36,6 +35,7 @@ public class LogIn extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         Gson gson = new Gson();
+        Cookie c_user = new Cookie("user", "");
         //Prelevo i dati provenienti dalla post
         String account = request.getParameter("account");
         String pw = request.getParameter("password");
@@ -50,12 +50,14 @@ public class LogIn extends HttpServlet {
             if (exists != null) {  //Se l'account esiste allora imposto gli attributi di sessione con i suoi valori
                 session.setAttribute("account", exists);
                 session.setAttribute("ruolo", exists.getRuolo());
+                c_user.setValue(exists.getAdmin());
                 System.out.println(account + " ha loggato come " + exists.getAdmin());
                 check = true;
             } else {                //Altrimenti imposto delle stringhe vuote
                 session.setAttribute("account", "");
                 session.setAttribute("password", "");
                 session.setAttribute("ruolo", "ospite");
+                c_user.setValue("ospite");
                 System.out.println(account + " non è registrato");
             }
         } else {
@@ -63,6 +65,7 @@ public class LogIn extends HttpServlet {
         }
         //Passo alla pagina una risposta tramite Json.
         try {
+            response.addCookie(c_user);
             ArrayList<Object> JSON = new ArrayList<>();
             String cookieJson = gson.toJson(session.getAttribute("account"));
             String checkJson = gson.toJson(check);
@@ -70,7 +73,10 @@ public class LogIn extends HttpServlet {
             JSON.add(cookieJson);
             System.out.println(JSON);
             out.println(JSON);
-        } finally {
+        } catch(Exception e){
+            System.out.println(e);
+        }
+        finally {
             out.flush();
             out.close();
         }
@@ -82,15 +88,20 @@ public class LogIn extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         Gson gson = new Gson();
-
-        if(!session.isNew()){
-            try {
+        int isAdmin = 0;
+        try{
+            if(session != null){
                 System.out.println(gson.toJson(session.getAttribute("account")));
                 out.println(gson.toJson(session.getAttribute("account")));
-            } finally {
-                out.flush();
-                out.close();
+            }else{
+                System.out.println(gson.toJson(isAdmin));
+                out.println(gson.toJson(isAdmin));
             }
+        }catch(Exception e){
+            System.out.println("Something goes wrong in getSessionParameters -> " + e);
+        } finally{
+            out.flush();
+            out.close();
         }
     }
 

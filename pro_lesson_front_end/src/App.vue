@@ -27,10 +27,21 @@ export default({
     data() {
         return { 
             login_link: "http://localhost:8080/TWEB_war_exploded/api/login",
+        
         }
     },
     props:{
         isAdmin: Boolean
+    },
+
+    methods: {
+        getCookie() {
+            console.log(this.$cookies.get("user"));
+        }
+    },
+
+    mounted() {
+        this.getCookie();
     }
 }) 
 </script>

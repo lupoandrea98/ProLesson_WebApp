@@ -54,14 +54,17 @@ export default({
                 account:this.account,
                 password:this.password,
             };
+          
             $.post(this.link, login_data, (data) => {
                 if(data[0] === true) {
                     this.success = true;
                     this.fail = false;
-                    console.log("login effettuato");
+                    this.$cookies.set("user", "admin");
+                    console.log("login effettuato " + this.$cookies.get("user"));
                 }else {
                     this.fail = true;
                     this.success = false;
+                    this.$cookies.set("user", "guest");
                     console.log("errore login");
                 }
             });
