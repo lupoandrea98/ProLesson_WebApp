@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">ProLesson</a>
+        <a class="navbar-brand" href="#" v-on:click="getCookie">ProLesson</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -8,35 +8,64 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
               <li class="nav-item">
-                <a v-if="isAdmin" class="nav-link" aria-current="page" href="#"> ControlPanel </a>
+                <router-link v-if="isAdmin" class="nav-link" aria-current="page" to="/prenotation"> ControlPanel </router-link>
               </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
-            <router-link class="btn btn-outline-primary my-2 my-sm-0" type="submit" to="/login"> LogIn/SigIn </router-link>
+            <router-link v-if="!logged" class="btn btn-primary my-2 my-sm-0" type="submit" to="/login"> LogIn/SigIn </router-link>
+            <button v-if="logged" class="btn btn-danger my-2 my-sm-0" type="submit" v-on:click="logOut"> LogOut</button>
           </form>
         </div>
     </nav>
     <br>
     <router-view/> 
-     
+    <footer>
+        <blockquote class="blockquote text-center">
+            <p class="text-secondary"> ProLesson © 2021-2022 </p>
+        </blockquote>
+    </footer>
 </template>
 
 <script>
+//import func from "vue-temp/vue-editor-bridge";
+import $ from '../node_modules/jquery'
+
+
 export default({
 
     data() {
         return { 
             login_link: "http://localhost:8080/TWEB_war_exploded/api/login",
-        
+            logout_link: "http://localhost:8080/TWEB_war_exploded/api/logout",
+            isAdmin: false,
+            logged: false
         }
-    },
-    props:{
-        isAdmin: Boolean
     },
 
     methods: {
         getCookie() {
-            console.log(this.$cookies.get("user"));
+            if(this.$cookies.isKey("user"))     //controllo l'esistenza del cookie per evitare operazioni che genererebbero errori
+                if(this.$cookies.get("user").isAdmin === 1)
+                    this.isAdmin = true;
+                else
+                    this.isAdmin = false;
+            this.isLogged();
+        },
+
+        logOut: function(){
+            console.log("logout called ");
+            $.get(this.logout_link);
+            this.$cookies.remove("user");
+            this.isAdmin = false;
+            this.getCookie();
+            this.isLogged();
+        },
+
+        isLogged() {
+            if(this.$cookies.isKey("user"))
+                this.logged = true;
+            else
+                this.logged = false;
         }
     },
 

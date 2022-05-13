@@ -52,7 +52,6 @@
 
 <script>
 import TableBox from '@/components/TableBox.vue'
-import $ from '../../node_modules/jquery'
 
 export default {
     name: 'HomePage',
@@ -65,20 +64,9 @@ export default {
 
     methods: {
         getSessionInfo: function(){
-            $.get(this.login_link, (data) => {
-                console.log(data);
-                
-                if(data.isAdmin === 1){
-                    this.isAdmin = true;
-                    
-                }else{
-                    this.isAdmin = false;
-                    
-                }
-                    
-            });
-            //this.$emit('isAdminEvent', this.isAdmin)
-            //console.log(this.isAdmin);
+            this.$cookies.get("userAdmin");
+            this.$cookies.get("userID");
+            this.$cookies.get("username");
         }
     },
 

@@ -21,11 +21,7 @@
     </div>
 
 </div>
-<footer>
-    <blockquote class="blockquote text-center">
-        <p class="text-secondary"> ProLesson © 2021-2022 </p>
-    </blockquote>
-</footer>
+
 
 </template>
 

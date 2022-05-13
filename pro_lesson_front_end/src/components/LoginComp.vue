@@ -24,11 +24,7 @@
     </div>
 </div>
 
-<footer>
-    <blockquote class="blockquote text-center">
-        <p class="text-secondary"> ProLesson © 2021-2022 </p>
-    </blockquote>
-</footer>
+
 
 </template>
 
@@ -59,8 +55,8 @@ export default({
                 if(data[0] === true) {
                     this.success = true;
                     this.fail = false;
-                    this.$cookies.set("user", "admin");
-                    console.log("login effettuato " + this.$cookies.get("user"));
+                    this.$cookies.set("user", data[1]);
+                    console.log("login effettuato ");
                 }else {
                     this.fail = true;
                     this.success = false;
