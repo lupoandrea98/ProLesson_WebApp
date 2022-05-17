@@ -5,3 +5,5 @@ import store from './store'
 import VueCookies from 'vue-cookies'
 
 createApp(App).use(store).use(router).use(VueCookies).mount('#app')
+
+

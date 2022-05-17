@@ -55,13 +55,12 @@ export default {
                 this.seen_pw = false;
                 console.log("password corrette");
                 $.post(this.link, this_data, (data) => {
-                    var recieved = [];
-                    recieved = data;
-                    if(recieved[0] === true) {
+            
+                    if(data[0] === true) {
                         console.log("utente esistente");
                         this.seen_user = true;
                     }
-                    if(recieved[1] === true) {
+                    if(data[1] === true) {
                         console.log("utente registrato con successo")
                         this.seen_success = true;
                     }else {

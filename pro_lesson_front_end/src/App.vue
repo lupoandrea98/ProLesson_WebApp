@@ -8,12 +8,12 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
               <li class="nav-item">
-                <router-link v-if="isAdmin" class="nav-link" aria-current="page" to="/prenotation"> ControlPanel </router-link>
+                <router-link v-if="isAdmin" class="nav-link" aria-current="page" to="/admin"> ControlPanel </router-link>
               </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
             <router-link v-if="!logged" class="btn btn-primary my-2 my-sm-0" type="submit" to="/login"> LogIn/SigIn </router-link>
-            <button v-if="logged" class="btn btn-danger my-2 my-sm-0" type="submit" v-on:click="logOut"> LogOut</button>
+            <router-link v-if="logged" class="btn btn-danger my-2 my-sm-0" type="submit" v-on:click="logOut" to="/"> LogOut </router-link>
           </form>
         </div>
     </nav>
@@ -88,14 +88,10 @@ export default({
     nav {
         padding: 30px;
 
-    a {
-        font-weight: bold;
-        color: #2c3e50;
-
-        &.router-link-exact-active {
-            color: #42b983;
+        a {
+            font-weight: bold;
+            color: #2c3e50;
         }
-    }
     }
 
     .form-group, .form-reg{

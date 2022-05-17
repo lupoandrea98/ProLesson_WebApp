@@ -50,13 +50,17 @@ export default({
                 account:this.account,
                 password:this.password,
             };
-          
+            $.ajax({
+                xhrFields: {
+                    withCredentials: true
+                }
+            });
+
             $.post(this.link, login_data, (data) => {
                 if(data[0] === true) {
                     this.success = true;
                     this.fail = false;
                     this.$cookies.set("user", data[1]);
-                    console.log("login effettuato ");
                 }else {
                     this.fail = true;
                     this.success = false;
@@ -64,10 +68,6 @@ export default({
                     console.log("errore login");
                 }
             });
-        },
-
-        getCookies() {
-            this.biscotto = this.$cookies.get('user');
         }
 
     }

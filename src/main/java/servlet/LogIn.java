@@ -44,17 +44,18 @@ public class LogIn extends HttpServlet {
         System.out.println("ricevuti " + account + " " + pw);
         //Creo una HttpSession nuova
         HttpSession session = request.getSession();
+        String JsessionID = session.getId();
+        response.setHeader("Set-Cookie" ,"JSESSIONID=" + JsessionID + "; Secure; Path=/TWEB_war_exploded/; Max-Age=99999999;");
+        //response.setHeader("Set-Cookie", " mycookie=hello ; Secure; HttpOnly; SameSite=None; Path=/TWEB_war_exploded/; Max-Age=99999999;");
         if (account != null) {
             Utente exists = Utente.exist(utenti, account, pw);
             if (exists != null) {  //Se l'account esiste allora imposto gli attributi di sessione con i suoi valori
-                session.setAttribute("account", exists);
-                session.setAttribute("ruolo", exists.getRuolo());
-
+                session.setAttribute("user", exists);
+                session.setAttribute("ruolo", exists.getAdmin());
                 System.out.println(account + " ha loggato come " + exists.getAdmin());
                 check = true;
             } else {                //Altrimenti imposto delle stringhe vuote
-                session.setAttribute("account", "");
-                session.setAttribute("password", "");
+                session.setAttribute("user", "");
                 session.setAttribute("ruolo", "ospite");
 
                 System.out.println(account + " non è registrato");
@@ -65,7 +66,7 @@ public class LogIn extends HttpServlet {
         //Passo alla pagina una risposta tramite Json.
         try {
             ArrayList<Object> JSON = new ArrayList<>();
-            String cookieJson = gson.toJson(session.getAttribute("account"));
+            String cookieJson = gson.toJson(session.getAttribute("user"));
             String checkJson = gson.toJson(check);
             JSON.add(checkJson);
             JSON.add(cookieJson);

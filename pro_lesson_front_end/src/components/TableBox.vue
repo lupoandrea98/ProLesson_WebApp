@@ -2,12 +2,9 @@
 
 <template>
     <div class="lesson">
-        <ul>
-            <li v-for="prenotazione in prenotazioni.slice(0,1)" :key="prenotazione">
-                {{ prenotazione.corso }} e altre {{ prenotazioni.length }} 
-            </li>
-        </ul>
-        
+        <router-link :pre=this.prenotazioni to="/prenotation"><p v-for="prenotazione in prenotazioni.slice(0,1)" :key="prenotazione">
+            {{ prenotazione.corso }} e altre {{ prenotazioni.length }} 
+        </p> </router-link>
     </div>
 
 </template>
@@ -45,7 +42,6 @@ export default({
         giorno: String,
         ora: Number
     }
-
 
 })
 </script>

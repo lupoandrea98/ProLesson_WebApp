@@ -3,6 +3,7 @@ import HomePage from '../components/HomePage.vue'
 import LogIn from '../components/LoginComp.vue'
 import SigIn from '../components/SigInComp.vue'
 import Prenotation from '../components/PrenotationPage.vue'
+import Admin from '../components/AdminPage.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/prenotation',
     name: 'prenotation',
     component: Prenotation
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: Admin
   }
 ]
 
