@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
 @WebServlet(name = "tablebox", value = "/tablebox")
 public class TableBox extends HttpServlet {
 
@@ -23,13 +24,18 @@ public class TableBox extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        getPrenotazioni(request,response);
-    }
-    public void getPrenotazioni(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try{
+            getPrenotazioni(request,response);
+        }catch (Exception e){
+            System.out.println("impossibile prendere le prenotazioni: " + e);
+        }
 
-        int ora = Integer.parseInt(request.getParameter("ora"));
+    }
+    public void getPrenotazioni(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         String giorno = request.getParameter("giorno");
+        int ora = Integer.parseInt(request.getParameter("ora"));
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 

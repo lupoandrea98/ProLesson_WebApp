@@ -22,9 +22,11 @@ const routes = [
     component: SigIn
   },
   {
-    path: '/prenotation',
+    path: '/prenotation/:giorno/:ora',
     name: 'prenotation',
-    component: Prenotation
+    component: Prenotation,
+    props: true,
+
   },
   {
     path: '/admin',

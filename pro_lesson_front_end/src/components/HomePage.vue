@@ -5,7 +5,7 @@
       
       <thead>
       <tr>
-          <th scope="col" >Days</th>
+          <th scope="col" >Days </th>
           <th scope="col" class="table-info">Lun</th>
           <th scope="col" class="table-info">Mar</th>
           <th scope="col" class="table-info">Mer</th>
@@ -16,35 +16,35 @@
       <tbody>
       <tr>
           <th scope="row" class="table-info">15-16</th>
-          <th><TableBox :ora=15 giorno="Lun" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=15 giorno="Mar" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=15 giorno="Mer" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=15 giorno="Gio" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=15 giorno="Ven" class="tableBox"></TableBox></th>
+          <th><router-link to="/prenotation/Lun/15"><TableBox :ora=15 giorno="Lun" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Mar/15"><TableBox :ora=15 giorno="Mar" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Mer/15"><TableBox :ora=15 giorno="Mer" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Gio/15"><TableBox :ora=15 giorno="Gio" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Ven/15"><TableBox :ora=15 giorno="Ven" class="tableBox"></TableBox></router-link></th>
       </tr>
       <tr>
           <th scope="row" class="table-info">16-17</th>
-          <th><TableBox :ora=16 giorno="Lun" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=16 giorno="Mar" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=16 giorno="Mer" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=16 giorno="Gio" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=16 giorno="Ven" class="tableBox"></TableBox></th>
+          <th><router-link to="/prenotation/Lun/16"><TableBox :ora=16 giorno="Lun" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Mar/16"><TableBox :ora=16 giorno="Mar" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Mer/16"><TableBox :ora=16 giorno="Mer" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Gio/16"><TableBox :ora=16 giorno="Gio" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Ven/16"><TableBox :ora=16 giorno="Ven" class="tableBox"></TableBox></router-link></th>
       </tr>
       <tr>
           <th scope="row" class="table-info">17-18</th>
-          <th><TableBox :ora=17 giorno="Lun" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=17 giorno="Mar" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=17 giorno="Mer" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=17 giorno="Gio" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=17 giorno="Ven" class="tableBox"></TableBox></th>
+          <th><router-link to="/prenotation/Lun/17"><TableBox :ora=17 giorno="Lun" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Mar/17"><TableBox :ora=17 giorno="Mar" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Mer/17"><TableBox :ora=17 giorno="Mer" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Gio/17"><TableBox :ora=17 giorno="Gio" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Ven/17"><TableBox :ora=17 giorno="Ven" class="tableBox"></TableBox></router-link></th>
       </tr>
       <tr>
           <th scope="row" class="table-info">18-19</th>
-          <th><TableBox :ora=18 giorno="Lun" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=18 giorno="Mar" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=18 giorno="Mer" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=18 giorno="Gio" class="tableBox"></TableBox></th>
-          <th><TableBox :ora=18 giorno="Ven" class="tableBox"></TableBox></th>
+          <th><router-link to="/prenotation/Lun/18"><TableBox :ora=18 giorno="Lun" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Mar/18"><TableBox :ora=18 giorno="Mar" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Mer/18"><TableBox :ora=18 giorno="Mer" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Gio/18"><TableBox :ora=18 giorno="Gio" class="tableBox"></TableBox></router-link></th>
+          <th><router-link to="/prenotation/Ven/18"><TableBox :ora=18 giorno="Ven" class="tableBox"></TableBox></router-link></th>
       </tr>
       </tbody>
   </table>
@@ -96,8 +96,7 @@ table {
     border: 2px solid ;
     border-radius: 18px;
     margin: 5px;
-    padding-top: 10px;
-    padding-bottom: 5px;
+    padding-top: 11px;
     padding-left: 5px;
     padding-right: 5px;
     background: #BEE5EB

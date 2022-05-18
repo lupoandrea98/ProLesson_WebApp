@@ -2,10 +2,12 @@
 
 <template>
     <div class="lesson">
-        <router-link :pre=this.prenotazioni to="/prenotation"><p v-for="prenotazione in prenotazioni.slice(0,1)" :key="prenotazione">
-            {{ prenotazione.corso }} e altre {{ prenotazioni.length }} 
-        </p> </router-link>
+        <p v-for="prenotazione in prenotazioni.slice(0,1)" :key="prenotazione">
+            {{ prenotazione.corso }} e altre {{ prenotazioni.length - 1}} 
+        </p> 
+        <p v-if="this.prenotazioni.length === 0"> Nessuna lezione disponibile </p>
     </div>
+    
 
 </template>
 

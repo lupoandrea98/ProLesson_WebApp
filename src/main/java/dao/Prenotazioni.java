@@ -100,17 +100,17 @@ public class Prenotazioni {
     //TODO: inserire controllo sugli insegnamenti nella insert
 
 
-    public static void insertDB(Prenotazioni pren) {
+    public static void insertDB(String nome_utente, String nome_docente, String corso, String giorno, int orario) {
         Connection conn1 = null;
         String query = null;
 
         //devo controllare che i parametri orario e giorno siano accettabili.
-        if(!(pren.getGiorno().equals("Lun") || pren.getGiorno().equals("Mar") || pren.getGiorno().equals("Mer") || pren.getGiorno().equals("Gio") ||
-                pren.getGiorno().equals("Ven")) && !((15 <= pren.getOrario()) && (pren.getOrario()<=19))){
+        if(!(giorno.equals("Lun") || giorno.equals("Mar") || giorno.equals("Mer") || giorno.equals("Gio") ||
+                giorno.equals("Ven")) && !((15 <= orario) && (orario<=19))){
             System.err.println("Invalid parameter of giorno");
         }else {
-            query = "INSERT INTO `prenotazioni` (`id`, `corso`, `docente`, `utente`, `stato`, `giorno`, `orario`) VALUES (NULL, '" + pren.getCorso() +
-                    "', '" + pren.getDocente() + "', '" + pren.getUtente() + "', NULL, '" + pren.getGiorno() + "', '" + pren.getOrario() + "');";
+            query = "INSERT INTO `prenotazioni` (`id`, `corso`, `docente`, `utente`, `stato`, `giorno`, `orario`) VALUES (NULL, '" + corso +
+                    "', '" + nome_docente + "', '" + nome_utente + "', NULL, '" + giorno + "', '" + orario + "');";
         }
 
         try {

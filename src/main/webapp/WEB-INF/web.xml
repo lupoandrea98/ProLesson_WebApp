@@ -55,4 +55,8 @@
         <servlet-name>insuser</servlet-name>
         <url-pattern>/api/insuser</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>booking</servlet-name>
+        <url-pattern>/api/booking</url-pattern>
+    </servlet-mapping>
 </web-app>

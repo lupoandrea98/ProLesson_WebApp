@@ -13,10 +13,6 @@
                 <input v-model="password" type="password" class="form-control" id="inputPassword" placeholder="Password">
                 <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="sendLog">LogIn</button>
             </div>
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Remember me</label>
-            </div>
             <div class="form-reg" >
                 <router-link href="sigin.html" title="Vai a schermata di registrazione" to="/sigin"> Non sei ancora registrato? Clicca qui!</router-link>
             </div>
