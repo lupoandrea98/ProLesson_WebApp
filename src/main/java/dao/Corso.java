@@ -17,6 +17,15 @@ public class Corso {
 
     public int getId() { return id; }
 
+    public static int getId_byTitolo(String titolo) {
+
+        ArrayList<Corso> corsi = Corso.queryDB();
+        for(Corso c : corsi)
+            if(c.getTitolo().equals(titolo))
+                return c.getId();
+        return -1;
+    }
+
     public String getTitolo() {
         return titolo;
     }

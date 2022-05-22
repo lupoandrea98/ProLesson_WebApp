@@ -18,7 +18,7 @@ export default({
 
     data() {
         return{
-            link: "http://localhost:8080/TWEB_war_exploded/api/tablebox",
+            link: "http://localhost:8080/TWEB_war_exploded/api/lessongetter",
             prenotazioni: []
         }
     },

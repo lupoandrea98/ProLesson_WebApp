@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-@WebServlet(name = "tablebox", value = "/tablebox")
-public class TableBox extends HttpServlet {
+@WebServlet(name = "lessongetter", value = "/lessongetter")
+public class LessonGetter extends HttpServlet {
 
     public void init() {
         DAO.registerDriver();
@@ -40,11 +40,11 @@ public class TableBox extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         //Sono queste le prenotazioni da mostrare in tabella sul sito
-        ArrayList<AvaiablePrenotation> avPren = AvaiablePrenotation.avPren;
-        ArrayList<AvaiablePrenotation> outPren = new ArrayList<>();
+        ArrayList<AvaiableLesson> avPren = AvaiableLesson.avPren;
+        ArrayList<AvaiableLesson> outPren = new ArrayList<>();
 
-        for (AvaiablePrenotation p : avPren) {
-            if (p.getGiorno().equals(giorno) && p.getOrario() == ora) {
+        for (AvaiableLesson p : avPren) {
+            if (p.getGiorno().equals(giorno) && p.getOrario() == ora && p.isAvaiable() != 1) {
                 outPren.add(p);
             }
         }

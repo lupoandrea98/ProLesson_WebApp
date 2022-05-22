@@ -97,10 +97,7 @@ public class Prenotazioni {
         return out;
     }
 
-    //TODO: inserire controllo sugli insegnamenti nella insert
-
-
-    public static void insertDB(String nome_utente, String nome_docente, String corso, String giorno, int orario) {
+    public static void insertDB(int nome_utente, int nome_docente, int corso, String giorno, int orario) {
         Connection conn1 = null;
         String query = null;
 
@@ -110,7 +107,7 @@ public class Prenotazioni {
             System.err.println("Invalid parameter of giorno");
         }else {
             query = "INSERT INTO `prenotazioni` (`id`, `corso`, `docente`, `utente`, `stato`, `giorno`, `orario`) VALUES (NULL, '" + corso +
-                    "', '" + nome_docente + "', '" + nome_utente + "', NULL, '" + giorno + "', '" + orario + "');";
+                    "', '" + nome_docente + "', '" + nome_utente + "', '" + "attiva" + "', '" + giorno + "', '" + orario + "');";
         }
 
         try {

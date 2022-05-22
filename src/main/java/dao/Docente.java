@@ -28,6 +28,14 @@ public class Docente {
         return id;
     }
 
+    public static int getId_bySurname(String cognome) {
+        ArrayList<Docente> docenti = Docente.queryDB();
+        for(Docente d : docenti)
+            if(d.getCognome().equals(cognome))
+                return d.getId();
+        return -1;
+    }
+
     @Override
     public String toString() {
         return id + " " + nome + " " + cognome;

@@ -44,8 +44,8 @@
         <url-pattern>/api/sigin</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>tablebox</servlet-name>
-        <url-pattern>/api/tablebox</url-pattern>
+        <servlet-name>lessongetter</servlet-name>
+        <url-pattern>/api/lessongetter</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>insdoc</servlet-name>

@@ -10,13 +10,18 @@
             <div class="card" style="width: 100%;">
                 <ul class="list-group">
                     <li v-for="prenotazione in prenotazioni" :key="prenotazione" class="list-group-item">
-                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..."> 
-                            {{ prenotazione.corso }} 
+                        <input v-if="prenotazione.avaiable == 0" class="form-check-input me-1" type="checkbox" v-model="booking" :value="prenotazione"> 
+                            {{ prenotazione.corso }}: {{ prenotazione.docente}}
                     </li>
+                    
+                    <!--<select v-model="booking">
+                        <option v-for="prenotazione in prenotazioni" :key="prenotazione" :value="prenotazione">{{prenotazione}}</option>
+                    </select>
+                    -->
                 </ul>
             </div>
             <div class="col-md-0">
-                <button v-if="this.logged" class="btn btn-primary my-2 my-sm-0" type="submit"> Prenota </button> 
+                <button v-if="this.logged" class="btn btn-primary my-2 my-sm-0" type="submit" v-on:click="commitBooking"> Prenota </button> 
             </div>
         </div>
     </div>
@@ -34,7 +39,9 @@ export default({
     data() {
         return{
             prenotazioni:[],
-            link: "http://localhost:8080/TWEB_war_exploded/api/tablebox",
+            booking: [],
+            link_lez: "http://localhost:8080/TWEB_war_exploded/api/lessongetter",
+            link_booking: "http://localhost:8080/TWEB_war_exploded/api/booking",
             logged: false
         }
     },
@@ -51,7 +58,7 @@ export default({
                 giorno: this.giorno
             }
       
-            $.post(this.link, requestData, (data) => {
+            $.post(this.link_lez, requestData, (data) => {
                 
                 this.prenotazioni = data;
             
@@ -62,6 +69,19 @@ export default({
                 this.logged = true;
             else
                 this.logged = false;
+        },
+        commitBooking: function() {
+        
+            var commitData = {
+                //spedisco l'array con tutte le prenotazioni selezionate contenenti tutti i dati che mi interessano
+                booking: JSON.stringify(this.booking),
+                prenotazioni: JSON.stringify(this.prenotazioni)
+            }
+            $.post(this.link_booking, commitData, (data) => {
+                
+                console.log(data);
+            
+            }); 
         }
     },
 

@@ -23,6 +23,15 @@ public class Utente {
 
     public int getId() { return id; }
 
+    public static  int getId_byUsername(String username) {
+        ArrayList<Utente> utenti = Utente.queryDB();
+        for(Utente u : utenti)
+            if(u.getAccount().equals(username))
+                return u.getId();
+
+        return -1;
+    }
+
     public String getAccount() {
         return account;
     }
