@@ -10,6 +10,9 @@
               <li class="nav-item">
                 <router-link v-if="isAdmin" class="nav-link" aria-current="page" to="/admin"> ControlPanel </router-link>
               </li>
+              <li class="nav-item">
+                  <router-link v-if="logged" class="nav-link" to="/prenlist"> Prenotation List </router-link>
+              </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
             <router-link v-if="!logged" class="btn btn-primary my-2 my-sm-0" type="submit" to="/login"> LogIn/SigIn </router-link>

@@ -45,6 +45,15 @@ public class Prenotazioni {
         return stato;
     }
 
+    public int getStato_avaiable() {
+        if(this.stato.equals("attiva"))
+            return 0;
+        else if(this.stato.equals("effettuata"))
+            return 1;
+        else
+            return 2;  //Corrisponde a disdetta
+    }
+
     public String getGiorno() {
         return giorno;
     }

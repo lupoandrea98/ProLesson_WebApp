@@ -27,6 +27,18 @@ export default({
 
     methods:{
         requestBox: function() {
+
+            if(this.action === "prenotazione") {
+                //richiama funzione post per richiedere le prenotazioni disponibili
+                this.avaiableLesson();
+            }else if(this.action === "booked") {
+                //richiama funzione get per richiedere le prenotazioni effettuate
+                this.bookedLesson();
+            }
+            
+        },
+
+        avaiableLesson: function() {
             var requestData = {
                 ora: this.ora,
                 giorno: this.giorno
@@ -37,12 +49,27 @@ export default({
                 this.prenotazioni = data;
                 
             });
+        },
+
+        bookedLesson: function() {
+            var requestData = {
+                ora: this.ora,
+                giorno: this.giorno
+            }
+
+            $.get(this.link, requestData, (data) => {
+                
+                this.prenotazioni = data;
+                
+            });
         }
+
     },
 
     props:{
         giorno: String,
-        ora: Number
+        ora: Number,
+        action: String
     }
 
 })

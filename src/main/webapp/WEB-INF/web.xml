@@ -31,6 +31,9 @@
         <session-timeout> 30 </session-timeout>
         <cookie-config> <http-only>false</http-only> </cookie-config>
     </session-config>
+    <listener>
+        <listener-class>servlet.HttpSessionCollector</listener-class>
+    </listener>
     <servlet-mapping>
         <servlet-name>login</servlet-name>
         <url-pattern>/api/login</url-pattern>

@@ -24,6 +24,14 @@ public class Docente {
         return cognome;
     }
 
+    public static String getCognome_byID(int ID) {
+        ArrayList<Docente> docenti = Docente.queryDB();
+        for(Docente d : docenti)
+            if(d.getId() == ID)
+                return d.getCognome();
+        return null;
+    }
+
     public int getId() {
         return id;
     }

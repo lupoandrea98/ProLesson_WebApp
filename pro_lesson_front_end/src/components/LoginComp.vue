@@ -46,17 +46,13 @@ export default({
                 account:this.account,
                 password:this.password,
             };
-            $.ajax({
-                xhrFields: {
-                    withCredentials: true
-                }
-            });
-
+          
             $.post(this.link, login_data, (data) => {
                 if(data[0] === true) {
                     this.success = true;
                     this.fail = false;
                     this.$cookies.set("user", data[1]);
+                    this.$cookies.set("JSESSIONID", data[2]);
                 }else {
                     this.fail = true;
                     this.success = false;

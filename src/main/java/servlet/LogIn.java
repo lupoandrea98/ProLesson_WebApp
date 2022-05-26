@@ -29,34 +29,37 @@ public class LogIn extends HttpServlet {
     }
 
     private void login_post(HttpServletRequest request, HttpServletResponse response, ArrayList<Utente> utenti) throws IOException {
-        //Configuro la response
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        Gson gson = new Gson();
 
         //Prelevo i dati provenienti dalla post
         String account = request.getParameter("account");
         String pw = request.getParameter("password");
+        //Configuro la response
+        PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        Gson gson = new Gson();
         //Variabile che attesta il successo o il fallimento del login
         boolean check = false;
-        //Stampo in console i dati ricevuti
-        System.out.println("ricevuti " + account + " " + pw);
-        //Creo una HttpSession nuova
+        //Creo una una nuova HttpSession
         HttpSession session = request.getSession();
-        String JsessionID = session.getId();
-        response.setHeader("Set-Cookie" ,"JSESSIONID=" + JsessionID + "; Secure; Path=/TWEB_war_exploded/; Max-Age=99999999;");
-        //response.setHeader("Set-Cookie", " mycookie=hello ; Secure; HttpOnly; SameSite=None; Path=/TWEB_war_exploded/; Max-Age=99999999;");
         if (account != null) {
+            //Creo una collezione di sessioni
+            HttpSessionCollector sessionCollector = new HttpSessionCollector();
+            //Stampo in console i dati ricevuti
+            System.out.println("ricevuti " + account + " " + pw);
+            //Creo un evento HttpSession
+            HttpSessionEvent sessionEvent = new HttpSessionEvent(session);
+            //Aggiungo la sessione utente creata associata all'evento di cui sopra
+            sessionCollector.sessionCreated(sessionEvent);
+            //Controllo che l'utente sia presente nel DB
             Utente exists = Utente.exist(utenti, account, pw);
             if (exists != null) {  //Se l'account esiste allora imposto gli attributi di sessione con i suoi valori
                 session.setAttribute("user", exists);
-                session.setAttribute("ruolo", exists.getAdmin());
+                session.setAttribute("role", exists.getAdmin());
                 System.out.println(account + " ha loggato come " + exists.getAdmin());
                 check = true;
-            } else {                //Altrimenti imposto delle stringhe vuote
-                session.setAttribute("user", "");
-                session.setAttribute("ruolo", "ospite");
-
+            } else {                //Altrimenti imposto null
+                session.setAttribute("user", null);
+                session.setAttribute("role", "ospite");
                 System.out.println(account + " non è registrato");
             }
         } else {
@@ -64,11 +67,10 @@ public class LogIn extends HttpServlet {
         }
         //Passo alla pagina una risposta tramite Json.
         try {
-            ArrayList<Object> JSON = new ArrayList<>();
-            String cookieJson = gson.toJson(session.getAttribute("user"));
-            String checkJson = gson.toJson(check);
-            JSON.add(checkJson);
-            JSON.add(cookieJson);
+            ArrayList<String> JSON = new ArrayList<>();
+            JSON.add(gson.toJson(check));
+            JSON.add(gson.toJson(session.getAttribute("user")));
+            JSON.add(gson.toJson(session.getId()));
             System.out.println(JSON);
             out.println(JSON);
         } catch(Exception e){

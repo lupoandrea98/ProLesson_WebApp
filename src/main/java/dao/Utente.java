@@ -36,6 +36,15 @@ public class Utente {
         return account;
     }
 
+    public static String getAccount_byID(int ID) {
+        ArrayList<Utente> utenti = Utente.queryDB();
+        for(Utente u : utenti)
+            if(u.getId() == ID)
+                return u.getAccount();
+
+        return null;
+    }
+
     public String getPsw() {
         return psw;
     }

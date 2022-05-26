@@ -5,6 +5,8 @@
     <h1 v-if=" this.giorno === 'Gio' "> Lezioni disponibili giovedì alle {{ this.ora }} </h1>
     <h1 v-if=" this.giorno === 'Ven' "> Lezioni disponibili venerdì alle {{ this.ora }} </h1>
 
+    <label v-if="fail" class="errLog"> Prenotazione non andata a buon fine </label>
+    <label v-if="success" class="successLog"> Prenotazione avvenuta con successo </label>
     <div v-if="this.prenotazioni.length > 0" class="container">
         <div class="row">
             <div class="card" style="width: 100%;">
@@ -14,10 +16,7 @@
                             {{ prenotazione.corso }}: {{ prenotazione.docente}}
                     </li>
                     
-                    <!--<select v-model="booking">
-                        <option v-for="prenotazione in prenotazioni" :key="prenotazione" :value="prenotazione">{{prenotazione}}</option>
-                    </select>
-                    -->
+                
                 </ul>
             </div>
             <div class="col-md-0">
@@ -33,7 +32,7 @@
 
 <script>
 import $ from '../../node_modules/jquery'
-//ti devo passare una singola props con la lista delle prenotazioni provenienti dal tablebox
+
 export default({
 
     data() {
@@ -42,7 +41,10 @@ export default({
             booking: [],
             link_lez: "http://localhost:8080/TWEB_war_exploded/api/lessongetter",
             link_booking: "http://localhost:8080/TWEB_war_exploded/api/booking",
-            logged: false
+            logged: false,
+            success: false,
+            fail: false,
+            sessionid: null
         }
     },
 
@@ -55,9 +57,9 @@ export default({
         requestPren: function() {
             var requestData = {
                 ora: this.ora,
-                giorno: this.giorno
+                giorno: this.giorno,
+                JSESSIONID: this.sessionid
             }
-      
             $.post(this.link_lez, requestData, (data) => {
                 
                 this.prenotazioni = data;
@@ -65,9 +67,10 @@ export default({
             });
         },
         isLogged() {
-            if(this.$cookies.isKey("user"))
+            if(this.$cookies.isKey("user")){
                 this.logged = true;
-            else
+                this.sessionid = this.$cookies.get("JSESSIONID");
+            }else
                 this.logged = false;
         },
         commitBooking: function() {
@@ -75,12 +78,20 @@ export default({
             var commitData = {
                 //spedisco l'array con tutte le prenotazioni selezionate contenenti tutti i dati che mi interessano
                 booking: JSON.stringify(this.booking),
-                prenotazioni: JSON.stringify(this.prenotazioni)
-            }
+                prenotazioni: JSON.stringify(this.prenotazioni),
+                JSESSIONID: this.sessionid
+            };
+            console.log(this.sessionid);
             $.post(this.link_booking, commitData, (data) => {
                 
-                console.log(data);
-            
+                if(data){
+                    this.success = true;
+                    this.fail = false;
+                }else{
+                    this.success = false;
+                    this.fail = true;
+                }
+
             }); 
         }
     },

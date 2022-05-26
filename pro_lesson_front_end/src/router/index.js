@@ -4,6 +4,8 @@ import LogIn from '../components/LoginComp.vue'
 import SigIn from '../components/SigInComp.vue'
 import Prenotation from '../components/PrenotationPage.vue'
 import Admin from '../components/AdminPage.vue'
+import PrenotationList from '../components/PrenotationList.vue'
+import LessonList from '../components/LessonList.vue'
 
 const routes = [
   {
@@ -25,13 +27,23 @@ const routes = [
     path: '/prenotation/:giorno/:ora',
     name: 'prenotation',
     component: Prenotation,
-    props: true,
-
+    props: true
   },
   {
     path: '/admin',
     name: 'admin',
     component: Admin
+  },
+  {
+    path: '/prenlist',
+    name: 'prenlist',
+    component: PrenotationList
+  },
+  {
+    path: '/lessonlist/:giorno/:ora',
+    name: 'lessonlist',
+    component: LessonList,
+    props: true
   }
 ]
 

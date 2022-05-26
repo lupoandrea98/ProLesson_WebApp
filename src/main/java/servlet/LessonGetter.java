@@ -30,7 +30,6 @@ public class LessonGetter extends HttpServlet {
         }catch (Exception e){
             System.out.println("impossibile prendere le prenotazioni: " + e);
         }
-
     }
     public void getPrenotazioni(HttpServletRequest request, HttpServletResponse response) throws IOException {
 

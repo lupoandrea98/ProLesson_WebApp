@@ -18,7 +18,6 @@ public class Corso {
     public int getId() { return id; }
 
     public static int getId_byTitolo(String titolo) {
-
         ArrayList<Corso> corsi = Corso.queryDB();
         for(Corso c : corsi)
             if(c.getTitolo().equals(titolo))
@@ -28,6 +27,14 @@ public class Corso {
 
     public String getTitolo() {
         return titolo;
+    }
+
+    public static String getTitolo_byID(int ID) {
+        ArrayList<Corso> corsi = Corso.queryDB();
+        for(Corso c : corsi)
+            if(c.getId() == ID)
+                return c.getTitolo();
+        return null;
     }
 
     @Override

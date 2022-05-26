@@ -8,7 +8,7 @@ public class AvaiableLesson {
     private String docente;
     private String giorno;
     private int orario;
-    private int avaiable;
+    private int avaiable;   //0=attiva, 1=effettuata, 2=disdetta
     public static ArrayList<AvaiableLesson> avPren = AvaiableLesson.setAvPren();
     public AvaiableLesson(String corso, String docente, String giorno, int orario, int avaiable) {
         this.corso = corso;
