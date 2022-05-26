@@ -67,16 +67,18 @@ export default {
             seen_user: false,
             seen_doc_success: false,
             seen_doc: false,
+            sessionid: null
 
         }
     },
 
     methods: {
         insertDoc: function() {
-
+            this.sessionid = this.$cookies.get("JSESSIONID");
             var newDoc = {
                 docname: this.docname,
-                docsname: this.docsname
+                docsname: this.docsname,
+                JSESSIONID: this.sessionid
             }
 
             $.post(this.link_insdoc, newDoc, (data) => {
@@ -88,10 +90,12 @@ export default {
         },
 
         insertUser: function(){
+            this.sessionid = this.$cookies.get("JSESSIONID");
             var newUser = {
                 username: this.username,
                 password: this.userpw,
-                selectAdmin: this.selectAdmin
+                selectAdmin: this.selectAdmin,
+                JSESSIONID: this.sessionid
             }
             if(this.userpw === this.conf_pw){
                 this.seen_pw = false;
