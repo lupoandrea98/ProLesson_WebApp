@@ -80,7 +80,7 @@ public class LogIn extends HttpServlet {
             out.flush();
             out.close();
         }
-        System.out.println("Ruolo di sessione memorizzato = " + session.getAttribute("ruolo"));
+        System.out.println("Ruolo di sessione memorizzato = " + session.getAttribute("role"));
     }
 
 }

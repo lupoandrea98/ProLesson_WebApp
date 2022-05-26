@@ -41,7 +41,8 @@ export default({
             login_link: "http://localhost:8080/TWEB_war_exploded/api/login",
             logout_link: "http://localhost:8080/TWEB_war_exploded/api/logout",
             isAdmin: false,
-            logged: false
+            logged: false,
+            sessionid: null
         }
     },
 
@@ -57,7 +58,7 @@ export default({
 
         logOut: function(){
             console.log("logout called ");
-            $.get(this.logout_link);
+            $.get(this.logout_link, this.sessionid);
             this.$cookies.remove("user");
             this.isAdmin = false;
             this.getCookie();
@@ -65,9 +66,10 @@ export default({
         },
 
         isLogged() {
-            if(this.$cookies.isKey("user"))
+            if(this.$cookies.isKey("user")){
                 this.logged = true;
-            else
+                this.sessionid = this.$cookies.get("JSESSIONID");
+            }else
                 this.logged = false;
         }
     },

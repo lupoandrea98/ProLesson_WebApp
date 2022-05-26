@@ -43,29 +43,27 @@ public class InsertUser extends HttpServlet {
     public void insertUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         boolean success = false;
         int selectAdmin = 0;
-        HttpSession session = request.getSession();
-        String finta_sessione = "admin";
         PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
         Gson gson = new Gson();
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        if(request.getParameter("selectAdmin").equals("true"))
-            selectAdmin = 1;
-        System.out.println("Ruolo di sessione " + session.getAttribute("ruolo"));
-        if(session.getAttribute("ruolo") == null)
-            System.out.println("Ruolo di sessione non presente, impossibile procedere con le operazioni desiderate");
-
-        System.out.println("is admin " + selectAdmin);
-        if(finta_sessione.equals("admin")) {
-            if(username != null && password != null) {
-                Utente.insertDB(username, password, selectAdmin);
-                success = true;
-            }else{
-                System.out.println("Parametri dal form nulli");
-            }
-        }else
-            System.out.println("Accesso non autorizzato all'inserimento utente");
+        response.setContentType("application/json");
+        HttpSession session = HttpSessionCollector.find(request.getParameter("JSESSIONID"));
+        if(session != null) {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            if(request.getParameter("selectAdmin").equals("true"))
+                selectAdmin = 1;
+            System.out.println("Ruolo di sessione " + session.getAttribute("role"));
+            String role = (String) session.getAttribute("role");
+            if(role.equals("admin")) {
+                if(username != null && password != null) {
+                    Utente.insertDB(username, password, selectAdmin);
+                    success = true;
+                }else{
+                    System.out.println("Parametri dal form nulli");
+                }
+            }else
+                System.out.println("Accesso non autorizzato all'inserimento utente");
+        }
 
         try {
             out.println(gson.toJson(success));

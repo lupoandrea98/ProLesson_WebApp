@@ -35,29 +35,25 @@ public class InsertDoc extends HttpServlet {
 
     private void insertDoc(HttpServletRequest request, HttpServletResponse response) throws IOException {
         boolean success = false;
-        HttpSession session = request.getSession();
-        String finta_sessione = "admin";
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         Gson gson = new Gson();
-        System.out.println("Ruolo di sessione " + session.getAttribute("ruolo"));
-        if(session.getAttribute("ruolo") == null)
-            System.out.println("Ruolo di sessione non presente, impossibile procedere con le operazioni desiderate");
+        HttpSession session = HttpSessionCollector.find(request.getParameter("JSESSIONID"));
 
-        if(finta_sessione.equals("admin")) {
-
-            String nome = request.getParameter("docname");
-            String cognome = request.getParameter("docsname");
-
-            if(nome != null && cognome != null) {
-                Docente.insertDB(nome, cognome);
-                success = true;
-            }else{
-                System.out.println("Parametri dal form nulli");
-            }
-        }else
-            System.out.println("Accesso non autorizzato all'inserimento docente");
-
+        if(session != null){
+            String role = (String) session.getAttribute("role");
+            if(role.equals("admin")) {
+                String nome = request.getParameter("docname");
+                String cognome = request.getParameter("docsname");
+                if(nome != null && cognome != null) {
+                    Docente.insertDB(nome, cognome);
+                    success = true;
+                }else{
+                    System.out.println("Parametri dal form nulli");
+                }
+            }else
+                System.out.println("Accesso non autorizzato all'inserimento docente");
+        }
         try {
             out.println(gson.toJson(success));
         }finally {

@@ -36,19 +36,21 @@ public class LogOut extends HttpServlet {
     public void invalidateSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        HttpSession session = request.getSession(false); //Non crea una nuova sessione utente se non ne esiste nessuna
         Gson gson = new Gson();
         boolean check = false;
-        String json_response = gson.toJson(check);
-        try {
+        HttpSession session = HttpSessionCollector.find(request.getParameter("JSESSIONID"));
+        if(session != null) {
+            System.out.println("Sessione " + session.getId() + " invalidata");
             session.invalidate();
             check = true;
-            json_response = gson.toJson(check);
-            out.println(json_response);
+        }
+
+        try {
+            out.println(gson.toJson(check));
         } catch (Exception e) {
             System.err.println(e.getMessage());
             System.err.println(Arrays.toString(e.getStackTrace()));
-            out.println(json_response);
+            out.println(gson.toJson(false));
         } finally {
             out.flush();
             out.close();

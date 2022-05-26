@@ -23,13 +23,11 @@ public class Booking extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try{
             getBooked(request, response);
         }catch (Exception e){
             System.out.println("booking -> " + e);
         }
-
     }
 
     @Override
@@ -39,7 +37,6 @@ public class Booking extends HttpServlet {
         }catch (Exception e){
             System.out.println("booking -> " + e);
         }
-
     }
 
     public void booking(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -86,7 +83,6 @@ public class Booking extends HttpServlet {
             out.flush();
             out.close();
         }
-
     }
 
     public void getBooked(HttpServletRequest request, HttpServletResponse response) throws IOException{
