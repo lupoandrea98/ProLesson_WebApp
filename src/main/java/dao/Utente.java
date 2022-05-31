@@ -122,10 +122,10 @@ public class Utente {
         System.out.println("New user insert into database correctly");
     }
 
-    public static void removeDB(Utente ut) {
+    public static void removeDB(int id) {
         Connection conn1 = null;
 
-        String query = "DELETE FROM `utente` WHERE `utente`.`id` =" + ut.getId() + ";";
+        String query = "DELETE FROM `utente` WHERE `utente`.`id` =" + id + ";";
 
         try {
             conn1 = DriverManager.getConnection(dao.getUrl1(),dao.getUser(), dao.getPassword());

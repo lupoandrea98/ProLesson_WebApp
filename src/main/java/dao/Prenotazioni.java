@@ -7,16 +7,15 @@ public class Prenotazioni {
 
     private static DAO dao = new DAO();
     private int id;
-    private int corso;
-    private int docente;
+    private String corso;
+    private String docente;
     private int utente;
     private String stato;
     private String giorno;
     private int orario;
 
 
-    public Prenotazioni(int id, int corso, int docente, int utente, String stato, String giorno, int orario) {
-        this.id = id;
+    public Prenotazioni(String corso, String docente, int utente, String stato, String giorno, int orario) {
         this.corso = corso;
         this.docente = docente;
         this.utente = utente;
@@ -29,11 +28,11 @@ public class Prenotazioni {
         return id;
     }
 
-    public int getCorso() {
+    public String getCorso() {
         return corso;
     }
 
-    public int getDocente() {
+    public String getDocente() {
         return docente;
     }
 
@@ -44,16 +43,6 @@ public class Prenotazioni {
     public String getStato() {
         return stato;
     }
-
-    public int getStato_avaiable() {
-        if(this.stato.equals("attiva"))
-            return 0;
-        else if(this.stato.equals("effettuata"))
-            return 1;
-        else
-            return 2;  //Corrisponde a disdetta
-    }
-
     public String getGiorno() {
         return giorno;
     }
@@ -88,7 +77,7 @@ public class Prenotazioni {
             Statement st = conn1.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                Prenotazioni p = new Prenotazioni(rs.getInt("id"), rs.getInt("corso"), rs.getInt("docente"), rs.getInt("utente"), rs.getString("stato"), rs.getString("giorno"), rs.getInt("orario"));
+                Prenotazioni p = new Prenotazioni(rs.getString("corso"), rs.getString("docente"), rs.getInt("utente"), rs.getString("stato"), rs.getString("giorno"), rs.getInt("orario"));
                 out.add(p);
             }
         } catch(SQLException e) {
@@ -176,10 +165,10 @@ public class Prenotazioni {
 
     //metodo per controllare l'esistenza di una prenotazione
     //Nel caso esista, mi resituirà la prenotazione esistente, altrimenti null
-    public static Prenotazioni exist(ArrayList<Prenotazioni> pren, int corso, int docente, int utente) {
+    public static Prenotazioni exist(ArrayList<Prenotazioni> pren, String corso, String docente, int utente) {
         for(Prenotazioni p : pren) {
-            if(p.getDocente() == docente)
-                if(p.getCorso() == corso)
+            if(p.getDocente().equals(docente))
+                if(p.getCorso().equals(corso))
                     if(p.getUtente() == utente)
                         return p;
         }
@@ -226,7 +215,7 @@ public class Prenotazioni {
 
         ArrayList<Prenotazioni> result = new ArrayList<>();
         for(Prenotazioni p : pren) {
-            if(p.getCorso() == c.getId()) {
+            if(p.getCorso().equals(c.getTitolo())) {
                 result.add(p);
             }
         }

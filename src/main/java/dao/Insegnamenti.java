@@ -49,8 +49,6 @@ public class Insegnamenti {
         }
         return out;
     }
-
-
     public static void InsertDB(int idDocente, int idCorso){
 
         Connection conn1 = null;
@@ -68,6 +66,34 @@ public class Insegnamenti {
 
         } catch (SQLException e) {
             System.out.println("Insert goes wrong -> " + e.getMessage());
+        }
+        finally {
+            if (conn1 != null) {
+                try {
+                    conn1.close();
+                } catch (SQLException e2) {
+                    System.out.println(e2.getMessage());
+                }
+            }
+        }
+    }
+
+    public static void removeDB(int idDocente, int idCorso) {
+        Connection conn1 = null;
+        String query = "DELETE FROM `insegnamento` WHERE `insegnamento`.`corso` =" + idCorso + " AND `insegnamento`.`docente` =" + idDocente + ";";
+
+        try {
+            conn1 = DriverManager.getConnection(dao.getUrl1(),dao.getUser(), dao.getPassword());
+            if (conn1 != null) {
+                System.out.println("Connected to the database");
+            }
+
+            Statement st = conn1.createStatement();
+            if(st.executeUpdate(query) == 0)
+                System.out.println("something goes wrong in the delete");
+
+        } catch (SQLException e) {
+            System.out.println("Delete goes wrong -> " + e.getMessage());
         }
         finally {
             if (conn1 != null) {

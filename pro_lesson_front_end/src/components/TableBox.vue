@@ -5,7 +5,8 @@
         <p v-for="prenotazione in prenotazioni.slice(0,1)" :key="prenotazione">
             {{ prenotazione.corso }} e altre {{ prenotazioni.length - 1}} 
         </p> 
-        <p v-if="this.prenotazioni.length === 0"> Nessuna lezione disponibile </p>
+        <p v-if="this.prenotazioni.length === 0 && this.action === 'prenotazione'"> Nessuna lezione disponibile </p>
+        <p v-if="this.prenotazioni.length === 0 && this.action === 'booked'"> Nessuna prenotazione </p>
     </div>
     
 
@@ -19,7 +20,8 @@ export default({
     data() {
         return{
             link: "http://localhost:8080/TWEB_war_exploded/api/lessongetter",
-            prenotazioni: []
+            prenotazioni: [],
+            sessionid: null
         }
     },
 
@@ -52,9 +54,11 @@ export default({
         },
 
         bookedLesson: function() {
+            this.sessionid = this.$cookies.get("JESSIONID");
             var requestData = {
                 ora: this.ora,
-                giorno: this.giorno
+                giorno: this.giorno,
+                JSESSIONID: this.sessionid
             }
 
             $.get(this.link, requestData, (data) => {

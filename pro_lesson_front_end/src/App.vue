@@ -60,6 +60,7 @@ export default({
             console.log("logout called ");
             $.get(this.logout_link, this.sessionid);
             this.$cookies.remove("user");
+            this.$cookies.remove("JSESSIONID");
             this.isAdmin = false;
             this.getCookie();
             this.isLogged();

@@ -29,6 +29,7 @@ export default({
 
     data() {
         return{
+            sessionid: null,
             prenotazioni:[],
             link_lez: "http://localhost:8080/TWEB_war_exploded/api/booking",
             logged: false
@@ -42,11 +43,14 @@ export default({
 
     methods:{
         requestPren: function() {
+            this.sessionid = this.$cookies.get("JSESSIONID");
             var requestData = {
                 ora: this.ora,
-                giorno: this.giorno
+                giorno: this.giorno,
+                JSESSIONID: this.sessionid,
+                action: "booked"
             }
-      
+            console.log(this.sessionid);
             $.get(this.link_lez, requestData, (data) => {
                 
                 this.prenotazioni = data;
@@ -54,9 +58,10 @@ export default({
             });
         },
         isLogged() {
-            if(this.$cookies.isKey("user"))
+            if(this.$cookies.isKey("user")){
                 this.logged = true;
-            else
+                this.sessionid = this.$cookies.get("JSESSIONID");
+            }else
                 this.logged = false;
         }
     },

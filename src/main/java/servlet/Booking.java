@@ -23,11 +23,25 @@ public class Booking extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try{
-            getBooked(request, response);
-        }catch (Exception e){
-            System.out.println("booking -> " + e);
+
+        String action = request.getParameter("action");
+        if(action != null){
+            switch (action){
+                case "dismiss":
+                    dismiss(request, response);
+                    break;
+                case "booked":
+                    try{
+                        getBooked(request, response);
+                    }catch (Exception e){
+                        System.out.println("booking -> " + e);
+                    }
+                    break;
+                default:
+                    System.out.println("Action not valid");
+            }
         }
+
     }
 
     @Override
@@ -94,7 +108,8 @@ public class Booking extends HttpServlet {
         HttpSession session = HttpSessionCollector.find(request.getParameter("JSESSIONID"));
         if(session != null) {
             user = (Utente) session.getAttribute("user");
-        }
+            System.out.println(user);
+        }else System.out.println("Nessuna sessione trovata ");
         ArrayList<AvaiableLesson> bookedLs = new ArrayList<>();
         if(user != null){
             String giorno = request.getParameter("giorno");
@@ -105,7 +120,7 @@ public class Booking extends HttpServlet {
             for(Prenotazioni p : prenotazioni) {
                 if(user.getAccount().equals(Utente.getAccount_byID(p.getUtente()))) {
                     if(p.getGiorno().equals(giorno) && p.getOrario() == orario) {
-                        AvaiableLesson a = new AvaiableLesson(Corso.getTitolo_byID(p.getCorso()), Docente.getCognome_byID(p.getDocente()), p.getGiorno(), p.getOrario(), p.getStato_avaiable());
+                        AvaiableLesson a = new AvaiableLesson(p.getCorso(), p.getDocente(), p.getGiorno(), p.getOrario(), p.getStato());
                         bookedLs.add(a);
                     }
                 }
@@ -114,6 +129,42 @@ public class Booking extends HttpServlet {
 
         try{
             String jsonResp = gson.toJson(bookedLs);
+            out.println(jsonResp);
+        }finally {
+            out.flush();
+            out.close();
+        }
+    }
+
+    public void dismiss(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        Gson gson = new Gson();
+        Utente user = null;
+        boolean check = false;
+
+        HttpSession session = HttpSessionCollector.find(request.getParameter("JSESSIONID"));
+
+        if(session != null) {
+            user = (Utente) session.getAttribute("user");
+            if(user != null) {
+
+                AvaiableLesson[] dismissed = gson.fromJson(request.getParameter("booking"), AvaiableLesson[].class);
+                ArrayList<Prenotazioni> prenotazioni = Prenotazioni.queryDB();
+
+                for(AvaiableLesson av : dismissed) {
+                    Prenotazioni p = Prenotazioni.exist(prenotazioni, av.getCorso(), av.getDocente(), Utente.getId_byUsername(user.getAccount()));
+                    if(p != null) {
+                        p.changeState("disdetta");
+                        check = true;
+                    }else
+                        check = false;
+                }
+            }
+        }
+
+        try{
+            String jsonResp = gson.toJson(check);
             out.println(jsonResp);
         }finally {
             out.flush();

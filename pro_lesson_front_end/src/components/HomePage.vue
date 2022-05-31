@@ -58,7 +58,8 @@ export default {
     data() {
         return {
             login_link: "http://localhost:8080/TWEB_war_exploded/api/login",
-            isAdmin: false
+            isAdmin: false,
+            sessionid: null
         }
     },
 
@@ -67,6 +68,7 @@ export default {
             this.$cookies.get("userAdmin");
             this.$cookies.get("userID");
             this.$cookies.get("username");
+            this.sessionid = this.$cookies.get("JSESSIONID");
         }
     },
 

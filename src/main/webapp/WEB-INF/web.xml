@@ -51,12 +51,8 @@
         <url-pattern>/api/lessongetter</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>insdoc</servlet-name>
-        <url-pattern>/api/insdoc</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>insuser</servlet-name>
-        <url-pattern>/api/insuser</url-pattern>
+        <servlet-name>adminpanel</servlet-name>
+        <url-pattern>/api/adminpanel</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>booking</servlet-name>

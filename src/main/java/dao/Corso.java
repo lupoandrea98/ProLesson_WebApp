@@ -75,10 +75,10 @@ public class Corso {
     }
 
     //TODO:(CONTROLLARE SE DEVO FARLO DAL TESTO) implementare l'impossibilità di inserire un corso con lo stesso titolo di un altro
-    public static void InsertDB(Corso newCorso) {
+    public static void InsertDB(String titolo) {
         Connection conn1 = null;
 
-        String query = "INSERT INTO `corso` (`id`, `titolo`) VALUES (NULL,'" + newCorso.getTitolo() + "');";
+        String query = "INSERT INTO `corso` (`id`, `titolo`) VALUES (NULL,'" + titolo + "');";
 
         try {
             conn1 = DriverManager.getConnection(dao.getUrl1(),dao.getUser(), dao.getPassword());
@@ -105,10 +105,10 @@ public class Corso {
         }
     }
 
-    public static void removeDB(Corso cor) {
+    public static void removeDB(int id) {
         Connection conn1 = null;
 
-        String query = "DELETE FROM `corso` WHERE `corso`.`id` = \' " + cor.getId() + "\';";
+        String query = "DELETE FROM `corso` WHERE `corso`.`id` = \' " + id + "\';";
 
         try {
             conn1 = DriverManager.getConnection(dao.getUrl1(),dao.getUser(), dao.getPassword());

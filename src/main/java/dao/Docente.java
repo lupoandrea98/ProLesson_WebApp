@@ -111,10 +111,10 @@ public class Docente {
         }
     }
 
-    public static void removeDB(Docente doc) {
+    public static void removeDB(int id) {
         Connection conn1 = null;
 
-        String query = "DELETE FROM `docente` WHERE `docente`.`id` =" + doc.getId() + ";";
+        String query = "DELETE FROM `docente` WHERE `docente`.`id` =" + id + ";";
 
         try {
             conn1 = DriverManager.getConnection(dao.getUrl1(),dao.getUser(), dao.getPassword());

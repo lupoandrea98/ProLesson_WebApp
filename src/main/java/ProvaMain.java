@@ -48,7 +48,7 @@ public class ProvaMain {
         Corso Info = new Corso(ID,"Informatica Avanzata");
         //Corso.InsertDB(Info);
         //Docente.insertDB("Francesco", "Bozzardini");
-        Insegnamenti.InsertDB(3,3);
+        //Insegnamenti.InsertDB(3,3);
 
         System.out.println("===================UTENTI===================");
         utenti = Utente.queryDB();

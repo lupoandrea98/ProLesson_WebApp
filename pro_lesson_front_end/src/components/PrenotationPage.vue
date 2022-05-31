@@ -12,7 +12,7 @@
             <div class="card" style="width: 100%;">
                 <ul class="list-group">
                     <li v-for="prenotazione in prenotazioni" :key="prenotazione" class="list-group-item">
-                        <input v-if="prenotazione.avaiable == 0" class="form-check-input me-1" type="checkbox" v-model="booking" :value="prenotazione"> 
+                        <input v-if="prenotazione.avaiable === 0 " class="form-check-input me-1" type="checkbox" v-model="booking" :value="prenotazione"> 
                             {{ prenotazione.corso }}: {{ prenotazione.docente}}
                     </li>
                     
@@ -55,6 +55,7 @@ export default({
 
     methods:{
         requestPren: function() {
+            this.sessionid = this.$cookies.get("JSESSIONID");
             var requestData = {
                 ora: this.ora,
                 giorno: this.giorno,
@@ -74,7 +75,7 @@ export default({
                 this.logged = false;
         },
         commitBooking: function() {
-        
+            this.sessionid = this.$cookies.get("JSESSIONID");
             var commitData = {
                 //spedisco l'array con tutte le prenotazioni selezionate contenenti tutti i dati che mi interessano
                 booking: JSON.stringify(this.booking),

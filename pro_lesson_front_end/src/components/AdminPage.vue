@@ -6,21 +6,51 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card" style="width: 100%;">
-                <h5 class="card-title"> Inserisci Utente </h5>
+                <h5 class="card-title"> Pannello Docente </h5>
                     <form action="sigin" method="POST">
                         <div class="form-group" id="this">
-                            <span v-if="seen_user_success" class="successLog"> Nuovo utente registrato correttamente </span>
-                            <span v-if="seen_pw" class="errLog"> Le password inserite sono diverse </span>
-                            <span v-if="seen_user" class="errLog"> Nome utente già esistente </span>
-                            <input v-model="username" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Username">
-                            <input v-model="userpw" type="password" class="form-control" id="inputUserPw" placeholder="Password">
-                            <input v-model="conf_pw" type="password" class="form-control" id="controlUserPw" placeholder="Password">
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1" v-model="selectAdmin">
-                                <label class="form-check-label" for="selectAdmin" value=1> Admin </label>
+                            <span v-if="seen_doc_success" class="successLog"> Operazione avvenuta con successo </span>
+                            <span v-if="seen_doc" class="errLog"> Errore </span>
+                            <input v-model="nome_docente" class="form-control"  placeholder="Nome">
+                            <input v-model="cognome_docente" class="form-control"  placeholder="Cognome">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-success btn-lg btn-block" v-on:click="insertDoc">Inserisci</button>
+                                <button type="button" class="btn btn-danger btn-lg btn-block" v-on:click="removeDoc">Rimuovi</button>
                             </div>
-                    
-                            <button type="button" class="btn btn-primary btn-lg btn-block" id="adminButton1" v-on:click="insertUser" >Inserisci utente </button>
+                        </div>
+                        <br>
+                    </form>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card" style="width: 100%;">
+                <h5 class="card-title"> Pannello Corso </h5>
+                <form action="sigin" method="GET">
+                    <div class="form-group" id="this">
+                        <span v-if="seen_cors_success" class="successLog"> Operazione avvenuta con successo </span>
+                        <span v-if="seen_cors" class="errLog"> Errore </span>
+                        <input v-model="nome_corso" class="form-control" placeholder="Nome del corso">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-success btn-lg btn-block" v-on:click="insertCorso">Inserisci</button>
+                            <button type="button" class="btn btn-danger btn-lg btn-block" v-on:click="removeCorso">Rimuovi</button>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card" style="width: 100%;">
+                <h5 class="card-title"> Rimuovi Utente </h5>
+                    <form action="sigin" method="POST">
+                        <div class="form-group" id="this">
+                            <span v-if="seen_user_success" class="successLog"> Utente rimosso correttamente </span>
+                            <span v-if="seen_user" class="errLog"> Errore rimozione utente </span>
+                            <input v-model="username" class="form-control"  aria-describedby="emailHelp" placeholder="Username">
+
+                            <button type="button" class="btn btn-danger btn-lg btn-block" v-on:click="removeUser" >Rimuovi utente </button>
                         </div>
                         
                     </form>
@@ -28,16 +58,30 @@
         </div>
         <div class="col-md-6">
             <div class="card" style="width: 100%;">
-                <h5 class="card-title"> Inserisci Docente </h5>
+                <h5 class="card-title"> Pannello insegnamento </h5>
+                <form action="sigin" method="GET">
+                    <div class="form-group" id="this">
+                        <span v-if="seen_insegna_success" class="successLog"> Insegnamento rimosso correttamente </span>
+                        <span v-if="seen_insegna" class="errLog"> Errore rimozione insegnamento </span>
+                        <input v-model="nome_corso_ins" class="form-control" placeholder="Nome del corso">
+                        <input v-model="cognome_doc" class="form-control" placeholder="Cognome docente">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-success btn-lg btn-block" v-on:click="insertInsegna">Inserisci</button>
+                            <button type="button" class="btn btn-danger btn-lg btn-block" v-on:click="removeInsegna">Rimuovi</button>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card" style="width: 100%;">
+                <h5 class="card-title"> Visualizza prenotazioni </h5>
                     <form action="sigin" method="POST">
                         <div class="form-group" id="this">
-                            <span v-if="seen_doc_success" class="successLog"> Nuovo docente aggiunto correttamente </span>
-                            <span v-if="seen_doc" class="errLog"> Docente già esistente </span>
-                            <input v-model="docname" class="form-control" id="inputDocname" placeholder="Nome">
-                            <input v-model="docsname" class="form-control" id="inputDocSname" placeholder="Cognome">
-                            <button type="button" class="btn btn-primary btn-lg btn-block" id="adminButton2" v-on:click="insertDoc"> Inerisci Docente </button>
+                            <input v-model="user" class="form-control"  aria-describedby="emailHelp" placeholder="Username">
+                            <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="insertUser" > Visualizza </button>
                         </div>
-                        <br>
                     </form>
             </div>
         </div>
@@ -54,21 +98,23 @@ export default {
     name: 'SigIn',
     data() {
         return{
+            link:"http://localhost:8080/TWEB_war_exploded/api/adminpanel",
             username: "",
-            userpw: "",
-            conf_pw: "",
-            selectAdmin: 0,
-            docname:"",
-            docsname:"",
-            link_insdoc:"http://localhost:8080/TWEB_war_exploded/api/insdoc",
-            link_insuser:"http://localhost:8080/TWEB_war_exploded/api/insuser",
+            user: "",
+            nome_docente:"",
+            cognome_docente:"",
+            nome_corso: "",
+            nome_corso_ins: "",
+            cognome_doc: "",
             seen_user_success: false,
-            seen_pw: false, 
             seen_user: false,
             seen_doc_success: false,
             seen_doc: false,
+            seen_cors: false,
+            seen_cors_success: false,
+            seen_insegna: false,
+            seen_insegna_success: false,
             sessionid: null
-
         }
     },
 
@@ -76,12 +122,13 @@ export default {
         insertDoc: function() {
             this.sessionid = this.$cookies.get("JSESSIONID");
             var newDoc = {
-                docname: this.docname,
-                docsname: this.docsname,
+                action: "insertDoc",
+                docname: this.nome_docente,
+                docsname: this.cognome_docente,
                 JSESSIONID: this.sessionid
             }
 
-            $.post(this.link_insdoc, newDoc, (data) => {
+            $.post(this.link, newDoc, (data) => {
                 if(data)
                     this.seen_doc_success = true;
                 else
@@ -89,27 +136,101 @@ export default {
             })
         },
 
-        insertUser: function(){
+        removeDoc: function() {
             this.sessionid = this.$cookies.get("JSESSIONID");
-            var newUser = {
-                username: this.username,
-                password: this.userpw,
-                selectAdmin: this.selectAdmin,
+            var Doc = {
+                action: "removeDoc",
+                nome_docente: this.nome_docente,
+                cognome_docente: this.cognome_docente,
                 JSESSIONID: this.sessionid
             }
-            if(this.userpw === this.conf_pw){
-                this.seen_pw = false;
-                console.log("password corrette");
-                $.post(this.link_insuser, newUser, (data) => {
-                    if(data) 
-                        this.seen_user_success = true;
-                    else
-                        this.seen_user_success = false;
-                });
-            }else{
-                this.seen_pw = true;
+
+            $.post(this.link, Doc, (data) => {
+                if(data)
+                    this.seen_doc_success = true;
+                else
+                    this.seen_doc_success = false;
+            })
+        },
+
+        removeUser: function(){
+            this.sessionid = this.$cookies.get("JSESSIONID");
+            var User = {
+                action: "removeUser",
+                username: this.username,
+                JSESSIONID: this.sessionid
             }
-        }
+            
+            $.post(this.link, User, (data) => {
+                if(data) 
+                    this.seen_user_success = true;
+                else
+                    this.seen_user_success = false;
+            });
+            
+        },
+        insertCorso: function(){
+            this.sessionid = this.$cookies.get("JSESSIONID");
+            var newCorso = {
+                action: "insertCorso",
+                title: this.nome_corso,
+                JSESSIONID: this.sessionid
+            }
+            
+            $.post(this.link, newCorso, (data) => {
+                if(data) 
+                    this.seen_cors_success = true;
+                else
+                    this.seen_cors_success = false;
+            });
+        },
+        removeCorso: function(){
+            this.sessionid = this.$cookies.get("JSESSIONID");
+            var Corso = {
+                action: "removeCorso",
+                title: this.nome_corso,
+                JSESSIONID: this.sessionid
+            }
+            
+            $.post(this.link, Corso, (data) => {
+                if(data) 
+                    this.seen_cors_success = true;
+                else
+                    this.seen_cors_success = false;
+            });
+        },
+        insertInsegna: function() {
+            this.sessionid = this.$cookies.get("JSESSIONID");
+            var newInsegna = {
+                action: "insertInsegna",
+                nome_corso: this.nome_corso_ins,
+                cognome_docente: this.cognome_doc,
+                JSESSIONID: this.sessionid
+            }
+
+            $.post(this.link, newInsegna, (data) => {
+                if(data)
+                    this.seen_insegna_success = true;
+                else
+                    this.seen_insegna_success = false;
+            })
+        },
+        removeInsegna: function() {
+            this.sessionid = this.$cookies.get("JSESSIONID");
+            var Insegna = {
+                action: "removeInsegna",
+                name_corso: this.nome_corso_ins,
+                cognome_docente: this.cognome_doc,
+                JSESSIONID: this.sessionid
+            }
+
+            $.post(this.link, Insegna, (data) => {
+                if(data)
+                    this.seen_insegna_success = true;
+                else
+                    this.seen_insegna_success = false;
+            })
+        },
     }
 }
 
@@ -118,16 +239,15 @@ export default {
 <style scoped>
 .card {
     padding-top: 5%;
+    margin: 2%;
 }
-#inputUserPw, #inputUsername,#controlUserPw, #inputDocname, #inputDocSname{
-        margin-top: 2%;
-        margin-bottom: 2%;
-    }
 
-#adminButton1{
-    margin-bottom: 3%;
+.form-control{ 
+    margin-top: 3%;
+    margin-bottom: 2%;
 }
-#adminButton2{
+
+.btn{
     margin-top: 10%;
 }
 
