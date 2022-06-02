@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 @WebServlet(name = "adminpanel", value = "/adminpanel")
 public class AdminPanel extends HttpServlet {
@@ -17,11 +18,20 @@ public class AdminPanel extends HttpServlet {
     public void init() {
         DAO.registerDriver();
     }
-
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+        Gson gson = new Gson();
+        PrintWriter out = response.getWriter();
+        try{
+            getAllPren(request, response);
+        }catch (Exception e) {
+            System.out.println("Impossibile prendere prenotazioni utente");
+            out.println(gson.toJson(false));
+            out.flush();
+            out.close();
+        }
     }
-
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Gson gson = new Gson();
         PrintWriter out = response.getWriter();
@@ -255,6 +265,32 @@ public class AdminPanel extends HttpServlet {
 
         try {
             out.println(gson.toJson(success));
+        }finally {
+            out.flush();
+            out.close();
+        }
+    }
+
+    public void getAllPren(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        boolean success = false;
+        PrintWriter out = response.getWriter();
+        Gson gson = new Gson();
+        ArrayList<Prenotazioni> userPrenotation = new ArrayList<>();
+        response.setContentType("application/json");
+        HttpSession session = HttpSessionCollector.find(request.getParameter("JSESSIONID"));
+        if(session != null) {
+            String user = request.getParameter("nome_utente");
+            if(user != null){
+                userPrenotation = Prenotazioni.userPrenotation(user);
+                success = true;
+            }
+        }
+
+        try {
+            ArrayList<String> json_response = new ArrayList<>();
+            json_response.add(gson.toJson(success));
+            json_response.add(gson.toJson(userPrenotation));
+            out.println(gson.toJson(json_response));
         }finally {
             out.flush();
             out.close();

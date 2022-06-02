@@ -6,6 +6,7 @@ import Prenotation from '../components/PrenotationPage.vue'
 import Admin from '../components/AdminPage.vue'
 import PrenotationList from '../components/PrenotationList.vue'
 import LessonList from '../components/LessonList.vue'
+import UserPrenotation from '../components/UserPrenotation.vue'
 
 const routes = [
   {
@@ -44,6 +45,11 @@ const routes = [
     name: 'lessonlist',
     component: LessonList,
     props: true
+  },
+  {
+    path: '/userpren',
+    name: 'userpren',
+    component: UserPrenotation
   }
 ]
 

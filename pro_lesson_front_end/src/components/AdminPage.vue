@@ -80,7 +80,7 @@
                     <form action="sigin" method="POST">
                         <div class="form-group" id="this">
                             <input v-model="user" class="form-control"  aria-describedby="emailHelp" placeholder="Username">
-                            <button type="button" class="btn btn-primary btn-lg btn-block" v-on:click="insertUser" > Visualizza </button>
+                            <router-link class="btn btn-primary btn-lg btn-block" v-on:click="userPrenotation" to="/userpren"> Visualizza </router-link> 
                         </div>
                     </form>
             </div>
@@ -231,6 +231,12 @@ export default {
                     this.seen_insegna_success = false;
             })
         },
+
+        userPrenotation: function() {
+            
+            this.$cookies.set("userPrenotation", this.user);
+            
+        }
     }
 }
 

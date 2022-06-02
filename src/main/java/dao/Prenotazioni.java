@@ -28,6 +28,8 @@ public class Prenotazioni {
         return id;
     }
 
+    public void setId(int id) { this.id = id; }
+
     public String getCorso() {
         return corso;
     }
@@ -78,6 +80,7 @@ public class Prenotazioni {
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
                 Prenotazioni p = new Prenotazioni(rs.getString("corso"), rs.getString("docente"), rs.getInt("utente"), rs.getString("stato"), rs.getString("giorno"), rs.getInt("orario"));
+                p.setId(rs.getInt("id"));
                 out.add(p);
             }
         } catch(SQLException e) {
@@ -95,7 +98,7 @@ public class Prenotazioni {
         return out;
     }
 
-    public static void insertDB(int nome_utente, int nome_docente, int corso, String giorno, int orario) {
+    public static void insertDB(int nome_utente, String nome_docente, String corso, String giorno, int orario) {
         Connection conn1 = null;
         String query = null;
 
@@ -110,9 +113,6 @@ public class Prenotazioni {
 
         try {
             conn1 = DriverManager.getConnection(dao.getUrl1(),dao.getUser(), dao.getPassword());
-            if (conn1 != null) {
-                System.out.println("Connected to the database");
-            }
 
             Statement st = conn1.createStatement();
             if(query!=null) {
@@ -141,9 +141,6 @@ public class Prenotazioni {
 
         try {
             conn1 = DriverManager.getConnection(dao.getUrl1(),dao.getUser(), dao.getPassword());
-            if (conn1 != null) {
-                System.out.println("Connected to the database");
-            }
 
             Statement st = conn1.createStatement();
             if(st.executeUpdate(query) == 0)
@@ -180,15 +177,10 @@ public class Prenotazioni {
     public void changeState(String state) {
         Connection conn1 = null;
         String query;
-        if(!state.equals("attiva") || !state.equals("disdetta") || !state.equals("effettuata")) {
-            System.err.println("Statate not valid");
-        }else{
-            query = "UPDATE `prenotazioni` SET `stato`=" + state + " WHERE `prenotazioni`.`id` = " + this.getId() + ";";
+        if(state.equals("attiva") || state.equals("disdetta") || state.equals("effettuata")) {
+            query = "UPDATE `prenotazioni` SET `stato`=" + "'" + state + "'" + " WHERE `prenotazioni`.`id` = " + this.getId() + ";";
             try {
                 conn1 = DriverManager.getConnection(dao.getUrl1(),dao.getUser(), dao.getPassword());
-                if (conn1 != null) {
-                    System.out.println("Connected to the database");
-                }
 
                 Statement st = conn1.createStatement();
                 if(st.executeUpdate(query) == 0)
@@ -206,6 +198,8 @@ public class Prenotazioni {
                     }
                 }
             }
+        }else{
+            System.err.println("State not valid");
         }
     }
 
@@ -220,6 +214,16 @@ public class Prenotazioni {
             }
         }
         return result;
+    }
+
+    public static ArrayList<Prenotazioni> userPrenotation(String user) {
+        ArrayList<Prenotazioni> allPrenotation = Prenotazioni.queryDB();
+        ArrayList<Prenotazioni> userPrenotation = new ArrayList<>();
+        for(Prenotazioni p : allPrenotation) {
+            if(p.getUtente() == Utente.getId_byUsername(user))
+                userPrenotation.add(p);
+        }
+        return userPrenotation;
     }
 
 }

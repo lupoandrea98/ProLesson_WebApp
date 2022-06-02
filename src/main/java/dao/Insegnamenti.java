@@ -26,9 +26,7 @@ public class Insegnamenti {
 
         try {
             conn1 = DriverManager.getConnection(dao.getUrl1(),dao.getUser(), dao.getPassword());
-            if (conn1 != null) {
-                System.out.println("Connected to the database");
-            }
+
             Statement st = conn1.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
@@ -56,9 +54,7 @@ public class Insegnamenti {
 
         try {
             conn1 = DriverManager.getConnection(dao.getUrl1(),dao.getUser(), dao.getPassword());
-            if (conn1 != null) {
-                System.out.println("Connected to the database");
-            }
+
             Statement st = conn1.createStatement();
             if(st.executeUpdate(query) == 0)
                 System.out.println("something goes wrong in the insert");
@@ -84,9 +80,7 @@ public class Insegnamenti {
 
         try {
             conn1 = DriverManager.getConnection(dao.getUrl1(),dao.getUser(), dao.getPassword());
-            if (conn1 != null) {
-                System.out.println("Connected to the database");
-            }
+
 
             Statement st = conn1.createStatement();
             if(st.executeUpdate(query) == 0)

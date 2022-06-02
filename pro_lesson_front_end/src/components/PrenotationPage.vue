@@ -15,8 +15,6 @@
                         <input v-if="prenotazione.avaiable === 0 " class="form-check-input me-1" type="checkbox" v-model="booking" :value="prenotazione"> 
                             {{ prenotazione.corso }}: {{ prenotazione.docente}}
                     </li>
-                    
-                
                 </ul>
             </div>
             <div class="col-md-0">
@@ -78,6 +76,7 @@ export default({
             this.sessionid = this.$cookies.get("JSESSIONID");
             var commitData = {
                 //spedisco l'array con tutte le prenotazioni selezionate contenenti tutti i dati che mi interessano
+                action: "booking",
                 booking: JSON.stringify(this.booking),
                 prenotazioni: JSON.stringify(this.prenotazioni),
                 JSESSIONID: this.sessionid

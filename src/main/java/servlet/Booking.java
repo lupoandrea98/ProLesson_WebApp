@@ -1,18 +1,14 @@
 package servlet;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import dao.*;
 
-import javax.servlet.GenericServlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 @WebServlet(name = "booking", value = "/booking")
 public class Booking extends HttpServlet {
@@ -26,28 +22,34 @@ public class Booking extends HttpServlet {
 
         String action = request.getParameter("action");
         if(action != null){
-            switch (action){
-                case "dismiss":
-                    dismiss(request, response);
-                    break;
-                case "booked":
-                    try{
-                        getBooked(request, response);
-                    }catch (Exception e){
-                        System.out.println("booking -> " + e);
-                    }
-                    break;
-                default:
-                    System.out.println("Action not valid");
+            if ("booked".equals(action)) {
+                try {
+                    getBooked(request, response);
+                } catch (Exception e) {
+                    System.out.println("booking -> " + e);
+                }
+            } else {
+                System.out.println("Action not valid");
             }
         }
 
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+        String action = request.getParameter("action");
         try{
-            booking(request, response);
+            switch (action) {
+                case "dismiss":
+                case "done":
+                    changingState(request, response, action);
+                    break;
+                case "booking":
+                    booking(request, response);
+                    break;
+                default:
+                    System.out.println("Action not valid");
+            }
         }catch (Exception e){
             System.out.println("booking -> " + e);
         }
@@ -79,7 +81,7 @@ public class Booking extends HttpServlet {
                 if(booked != null){
                     for (AvaiableLesson avaiableLesson : booked) {
                         //Vado a recuperare gli ID per inserire la prenotazione in DB
-                        Prenotazioni.insertDB(Utente.getId_byUsername(user.getAccount()), Docente.getId_bySurname(avaiableLesson.getDocente()), Corso.getId_byTitolo(avaiableLesson.getCorso()), avaiableLesson.getGiorno(), avaiableLesson.getOrario());
+                        Prenotazioni.insertDB(Utente.getId_byUsername(user.getAccount()), avaiableLesson.getDocente(), avaiableLesson.getCorso(), avaiableLesson.getGiorno(), avaiableLesson.getOrario());
                     }
                     check = true;
                 }else {
@@ -108,7 +110,6 @@ public class Booking extends HttpServlet {
         HttpSession session = HttpSessionCollector.find(request.getParameter("JSESSIONID"));
         if(session != null) {
             user = (Utente) session.getAttribute("user");
-            System.out.println(user);
         }else System.out.println("Nessuna sessione trovata ");
         ArrayList<AvaiableLesson> bookedLs = new ArrayList<>();
         if(user != null){
@@ -136,7 +137,7 @@ public class Booking extends HttpServlet {
         }
     }
 
-    public void dismiss(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void changingState(HttpServletRequest request, HttpServletResponse response, String action) throws IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         Gson gson = new Gson();
@@ -155,7 +156,14 @@ public class Booking extends HttpServlet {
                 for(AvaiableLesson av : dismissed) {
                     Prenotazioni p = Prenotazioni.exist(prenotazioni, av.getCorso(), av.getDocente(), Utente.getId_byUsername(user.getAccount()));
                     if(p != null) {
-                        p.changeState("disdetta");
+                        switch (action) {
+                            case "dismiss":
+                                p.changeState("disdetta");
+                                break;
+                            case "done":
+                                p.changeState("effettuata");
+                                break;
+                        }
                         check = true;
                     }else
                         check = false;

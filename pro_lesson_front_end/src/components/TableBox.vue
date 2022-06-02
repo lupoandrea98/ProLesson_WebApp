@@ -19,17 +19,20 @@ export default({
 
     data() {
         return{
-            link: "http://localhost:8080/TWEB_war_exploded/api/lessongetter",
+            link_lessongetter: "http://localhost:8080/TWEB_war_exploded/api/lessongetter",
+            link_booking: "http://localhost:8080/TWEB_war_exploded/api/booking",
             prenotazioni: [],
             sessionid: null
         }
     },
 
-    mounted(){ this.requestBox() },
+    mounted(){ 
+        this.sessionid = this.$cookies.get("JSESSIONID");
+        this.requestBox();
+    },
 
     methods:{
         requestBox: function() {
-
             if(this.action === "prenotazione") {
                 //richiama funzione post per richiedere le prenotazioni disponibili
                 this.avaiableLesson();
@@ -42,11 +45,12 @@ export default({
 
         avaiableLesson: function() {
             var requestData = {
+                JSESSIONID: this.sessionid,
                 ora: this.ora,
                 giorno: this.giorno
             }
 
-            $.post(this.link, requestData, (data) => {
+            $.post(this.link_lessongetter, requestData, (data) => {
                 
                 this.prenotazioni = data;
                 
@@ -54,17 +58,15 @@ export default({
         },
 
         bookedLesson: function() {
-            this.sessionid = this.$cookies.get("JESSIONID");
             var requestData = {
+                action: this.action,
                 ora: this.ora,
                 giorno: this.giorno,
                 JSESSIONID: this.sessionid
             }
 
-            $.get(this.link, requestData, (data) => {
-                
-                this.prenotazioni = data;
-                
+            $.get(this.link_booking, requestData, (data) => {
+                this.prenotazioni = data; 
             });
         }
 
