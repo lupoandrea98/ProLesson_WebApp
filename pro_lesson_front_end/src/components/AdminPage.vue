@@ -9,7 +9,7 @@
                 <h5 class="card-title"> Pannello Docente </h5>
                     <form action="sigin" method="POST">
                         <div class="form-group" id="this">
-                            <span v-if="seen_doc_success" class="successLog"> Operazione avvenuta con successo </span>
+                            <span v-if="seen_doc_success" class="successLog"> Operazione completata correttamente </span>
                             <span v-if="seen_doc" class="errLog"> Errore </span>
                             <input v-model="nome_docente" class="form-control"  placeholder="Nome">
                             <input v-model="cognome_docente" class="form-control"  placeholder="Cognome">
@@ -28,7 +28,7 @@
                 <h5 class="card-title"> Pannello Corso </h5>
                 <form action="sigin" method="GET">
                     <div class="form-group" id="this">
-                        <span v-if="seen_cors_success" class="successLog"> Operazione avvenuta con successo </span>
+                        <span v-if="seen_cors_success" class="successLog"> Operazione completata correttamente </span>
                         <span v-if="seen_cors" class="errLog"> Errore </span>
                         <input v-model="nome_corso" class="form-control" placeholder="Nome del corso">
                         <div class="btn-group" role="group" aria-label="Basic example">
@@ -61,8 +61,8 @@
                 <h5 class="card-title"> Pannello insegnamento </h5>
                 <form action="sigin" method="GET">
                     <div class="form-group" id="this">
-                        <span v-if="seen_insegna_success" class="successLog"> Insegnamento rimosso correttamente </span>
-                        <span v-if="seen_insegna" class="errLog"> Errore rimozione insegnamento </span>
+                        <span v-if="seen_insegna_success" class="successLog"> Operazione completata correttamente </span>
+                        <span v-if="seen_insegna" class="errLog"> Errore </span>
                         <input v-model="nome_corso_ins" class="form-control" placeholder="Nome del corso">
                         <input v-model="cognome_doc" class="form-control" placeholder="Cognome docente">
                         <div class="btn-group" role="group" aria-label="Basic example">

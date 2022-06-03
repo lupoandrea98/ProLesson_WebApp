@@ -106,27 +106,27 @@ public class Booking extends HttpServlet {
         PrintWriter out = response.getWriter();
         Gson gson = new Gson();
         Utente user = null;
-
+        ArrayList<AvaiableLesson> bookedLs = new ArrayList<>();
         HttpSession session = HttpSessionCollector.find(request.getParameter("JSESSIONID"));
         if(session != null) {
             user = (Utente) session.getAttribute("user");
-        }else System.out.println("Nessuna sessione trovata ");
-        ArrayList<AvaiableLesson> bookedLs = new ArrayList<>();
-        if(user != null){
-            String giorno = request.getParameter("giorno");
-            int orario = Integer.parseInt(request.getParameter("ora"));
-            ArrayList<Prenotazioni> prenotazioni = Prenotazioni.queryDB();
+            if(user != null){
+                String giorno = request.getParameter("giorno");
+                int orario = Integer.parseInt(request.getParameter("ora"));
+                ArrayList<Prenotazioni> prenotazioni = Prenotazioni.queryDB();
 
-            //Prelevo le prenotazioni dell'utente e le trasformo in un formato leggibile
-            for(Prenotazioni p : prenotazioni) {
-                if(user.getAccount().equals(Utente.getAccount_byID(p.getUtente()))) {
-                    if(p.getGiorno().equals(giorno) && p.getOrario() == orario) {
-                        AvaiableLesson a = new AvaiableLesson(p.getCorso(), p.getDocente(), p.getGiorno(), p.getOrario(), p.getStato());
-                        bookedLs.add(a);
+                //Prelevo le prenotazioni dell'utente e le trasformo in un formato leggibile
+                for(Prenotazioni p : prenotazioni) {
+                    if(user.getAccount().equals(Utente.getAccount_byID(p.getUtente()))) {
+                        if(p.getGiorno().equals(giorno) && p.getOrario() == orario) {
+                            AvaiableLesson a = new AvaiableLesson(p.getCorso(), p.getDocente(), p.getGiorno(), p.getOrario(), p.getStato());
+                            bookedLs.add(a);
+                        }
                     }
                 }
             }
-        }
+        }else
+            System.out.println("Nessuna sessione trovata ");
 
         try{
             String jsonResp = gson.toJson(bookedLs);

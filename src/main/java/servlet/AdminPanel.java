@@ -136,8 +136,8 @@ public class AdminPanel extends HttpServlet {
         if(session != null) {
             String role = (String) session.getAttribute("role");
             if(role.equals("admin")) {
-                String docname = request.getParameter("docname");
-                String docsname = request.getParameter("docsname");
+                String docname = request.getParameter("nome_docente");
+                String docsname = request.getParameter("cognome_docente");
                 if(docname != null && docsname != null) {
                     Docente.removeDB(Docente.getId_bySurname(docsname));
                     success = true;
@@ -195,7 +195,7 @@ public class AdminPanel extends HttpServlet {
             String role = (String) session.getAttribute("role");
             if(role.equals("admin")) {
                 String nome_corso = request.getParameter("name_corso");
-                String docsname = request.getParameter("docsname");
+                String docsname = request.getParameter("cognome_docente");
                 if(docsname != null && nome_corso != null) {
                     Insegnamenti.removeDB(Docente.getId_bySurname(docsname), Corso.getId_byTitolo(nome_corso));
                     success = true;
@@ -252,7 +252,7 @@ public class AdminPanel extends HttpServlet {
         if(session != null) {
             String role = (String) session.getAttribute("role");
             if(role.equals("admin")) {
-                String title = request.getParameter("name_corso");
+                String title = request.getParameter("title");
                 if(title != null) {
                     Corso.removeDB(Corso.getId_byTitolo(title));
                     success = true;
@@ -272,7 +272,6 @@ public class AdminPanel extends HttpServlet {
     }
 
     public void getAllPren(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        boolean success = false;
         PrintWriter out = response.getWriter();
         Gson gson = new Gson();
         ArrayList<Prenotazioni> userPrenotation = new ArrayList<>();
@@ -282,15 +281,13 @@ public class AdminPanel extends HttpServlet {
             String user = request.getParameter("nome_utente");
             if(user != null){
                 userPrenotation = Prenotazioni.userPrenotation(user);
-                success = true;
-            }
+
+            }else
+                System.out.println("Nome utente errato");
         }
 
         try {
-            ArrayList<String> json_response = new ArrayList<>();
-            json_response.add(gson.toJson(success));
-            json_response.add(gson.toJson(userPrenotation));
-            out.println(gson.toJson(json_response));
+            out.println(gson.toJson(userPrenotation));
         }finally {
             out.flush();
             out.close();

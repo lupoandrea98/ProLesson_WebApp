@@ -5,7 +5,7 @@
             <div class="card" style="width: 100%;">
                 <ul class="list-group">
                     <li v-for="prenotazione in prenotazioni" :key="prenotazione" class="list-group-item">
-                            {{ prenotazione.corso }}: {{ prenotazione.docente }} ({{ prenotazione.stato }})
+                            Giorno: {{ prenotazione.giorno }} Ora: {{ prenotazione.orario }}  Lezione: {{ prenotazione.corso }} - {{ prenotazione.docente }} ({{ prenotazione.stato }})
                     </li>
                 </ul>
             </div>
@@ -38,8 +38,8 @@ export default({
 
     methods:{
         requestPren: function() {
-            this.sessionid = this.$cookies.get("JSESSIONID");
             var username = this.$cookies.get("userPrenotation");
+            this.$cookies.remove("userPrenotation");
 
             var us = {
                 JSESSIONID: this.sessionid,
@@ -47,11 +47,13 @@ export default({
             }
 
             $.get(this.link, us, (data) =>{
-                if(data[0]){
-                    this.prenotazioni = data[1];
-                }else
-                    alert("L'utente non ha effettuato alcuna prenotazione");
+                if(data != null)
+                    this.prenotazioni = data;
+                else
+                    alert("Nessuna prenotazione presente");
             });
+
+            
 
         },
         isLogged() {
