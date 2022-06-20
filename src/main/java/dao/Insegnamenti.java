@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Insegnamenti {
-    //TODO: metodi per aggiungere o rimuovere associzioni tra corsi e docenti
     private static DAO dao = new DAO();
     private String corso;
     private String docente;
@@ -12,6 +11,14 @@ public class Insegnamenti {
     public Insegnamenti(String corso, String docente) {
         this.corso = corso;
         this.docente = docente;
+    }
+
+    public String getCorso() {
+        return corso;
+    }
+
+    public String getDocente() {
+        return docente;
     }
 
     @Override

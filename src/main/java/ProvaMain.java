@@ -7,6 +7,12 @@ public class ProvaMain {
         //Proviamo ad interrogare il database e recuperare i dati di un utente.
         DAO.registerDriver();
 
+        ArrayList<Insegnamenti> ins = Insegnamenti.queryDB();
+        for(Insegnamenti i : ins) {
+            System.out.println(i);
+        }
+
+        /*
         System.out.println("============UTENTI=============");
         ArrayList<Utente> utenti = Utente.queryDB();
         for(Utente u : utenti){

@@ -1,6 +1,6 @@
 <template>
-
-  <table class="table table-bordered">
+    <h3> Lezioni prenotate </h3>
+    <table class="table table-bordered">
       <caption> Lezioni Prenotate </caption>
       
       <thead>

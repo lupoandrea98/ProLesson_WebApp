@@ -1,6 +1,6 @@
 <template>
-
-  <table class="table table-bordered">
+    <h3> Prenota qui le tue lezioni </h3>
+    <table class="table table-bordered">
       <caption> Lezioni disponibili </caption>
       
       <thead>

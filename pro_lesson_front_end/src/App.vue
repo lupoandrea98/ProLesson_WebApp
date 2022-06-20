@@ -92,8 +92,6 @@ export default({
     }
 
     nav {
-        padding: 30px;
-
         a {
             font-weight: bold;
             color: #2c3e50;
@@ -115,7 +113,7 @@ export default({
         margin-top: auto;
     }
     h1, h3{
-        margin-top: 3%;
+        margin-top: 1%;
         margin-bottom: 2%;
     }
     .errLog {
