@@ -1,5 +1,11 @@
 package servlet;
 
+import dao.Corso;
+import dao.Docente;
+import dao.Insegnamenti;
+
+import javax.print.Doc;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AvaiableLesson {
@@ -49,7 +55,7 @@ public class AvaiableLesson {
 
     public void setAvaiable(int avaiable) { this.avaiable = avaiable; }
 
-    private static ArrayList<AvaiableLesson> setAvPren() {
+    private static ArrayList<AvaiableLesson> setAvPren2() {
         ArrayList<AvaiableLesson> avPren = new ArrayList<>();
         avPren.add(new AvaiableLesson("matematica", "Cannavò", "Lun", 15, "attiva"));
         avPren.add(new AvaiableLesson("informatica", "DiBitonto", "Lun", 15, "attiva"));
@@ -73,5 +79,34 @@ public class AvaiableLesson {
 
         return avPren;
     }
+
+    private static ArrayList<AvaiableLesson> setAvPren() {
+        ArrayList<Insegnamenti> insegnamenti = Insegnamenti.queryDB();
+        ArrayList<AvaiableLesson> avPren = new ArrayList<>();
+        ArrayList<String> giorni = new ArrayList<>();
+        ArrayList<Integer> ore = new ArrayList<>();
+        giorni.add("Lun");
+        giorni.add("Mar");
+        giorni.add("Mer");
+        giorni.add("Gio");
+        giorni.add("Ven");
+        ore.add(15);
+        ore.add(16);
+        ore.add(17);
+        ore.add(18);
+        ore.add(19);
+
+        for(Insegnamenti i : insegnamenti) {
+            String c = Corso.getTitolo_byID(Integer.parseInt(i.getCorso()));
+            String d = Docente.getCognome_byID(Integer.parseInt(i.getDocente()));
+            for(int k=0; k<giorni.size();k++)
+                for(int j=0; j<ore.size(); j++)
+                    avPren.add(new AvaiableLesson(c, d, giorni.get(k), ore.get(j), "attiva"));
+        }
+
+        return avPren;
+
+    }
+
 
 }

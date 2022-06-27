@@ -74,7 +74,8 @@ public class Booking extends HttpServlet {
                 //Aggiorno la lista delle prenotazioni disponibili, segnando come non disponibili quelle prenotate
                 for(AvaiableLesson av : AvaiableLesson.avPren) {
                     for(AvaiableLesson b : booked) {
-                        if(av.getCorso().equals(b.getCorso()) && av.getDocente().equals(b.getDocente()))
+
+                        if(av.getCorso().equals(b.getCorso()) && av.getDocente().equals(b.getDocente()) && av.getOrario() == b.getOrario() && av.getGiorno().equals(b.getGiorno()))
                             av.setAvaiable(1);
                     }
                 }
