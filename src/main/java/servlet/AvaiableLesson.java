@@ -55,7 +55,7 @@ public class AvaiableLesson {
 
     public void setAvaiable(int avaiable) { this.avaiable = avaiable; }
 
-    private static ArrayList<AvaiableLesson> setAvPren2() {
+    private static ArrayList<AvaiableLesson> OldSetAvPren() {
         ArrayList<AvaiableLesson> avPren = new ArrayList<>();
         avPren.add(new AvaiableLesson("matematica", "Cannavò", "Lun", 15, "attiva"));
         avPren.add(new AvaiableLesson("informatica", "DiBitonto", "Lun", 15, "attiva"));
@@ -94,7 +94,6 @@ public class AvaiableLesson {
         ore.add(16);
         ore.add(17);
         ore.add(18);
-        ore.add(19);
 
         for(Insegnamenti i : insegnamenti) {
             String c = Corso.getTitolo_byID(Integer.parseInt(i.getCorso()));
@@ -107,6 +106,5 @@ public class AvaiableLesson {
         return avPren;
 
     }
-
 
 }

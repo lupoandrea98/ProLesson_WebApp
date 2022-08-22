@@ -28,7 +28,13 @@ public class Booking extends HttpServlet {
                 } catch (Exception e) {
                     System.out.println("booking -> " + e);
                 }
-            } else {
+            } else if("bookedAndroid".equals(action)){
+                try {
+                    getBooked2(request, response);
+                } catch (Exception e) {
+                    System.out.println("bookingAndroid -> " + e);
+                }
+            }else {
                 System.out.println("Action not valid");
             }
         }
@@ -46,6 +52,9 @@ public class Booking extends HttpServlet {
                     break;
                 case "booking":
                     booking(request, response);
+                    break;
+                case "bookedAndroid":
+                    getBooked2(request, response);
                     break;
                 default:
                     System.out.println("Action not valid");
@@ -70,11 +79,9 @@ public class Booking extends HttpServlet {
                 System.out.println("Stampo parametri di sessione recuperati: " + session.getAttribute("user") + " " + session.getAttribute("role"));
 
                 AvaiableLesson[] booked = gson.fromJson(request.getParameter("booking"), AvaiableLesson[].class);
-
                 //Aggiorno la lista delle prenotazioni disponibili, segnando come non disponibili quelle prenotate
                 for(AvaiableLesson av : AvaiableLesson.avPren) {
                     for(AvaiableLesson b : booked) {
-
                         if(av.getCorso().equals(b.getCorso()) && av.getDocente().equals(b.getDocente()) && av.getOrario() == b.getOrario() && av.getGiorno().equals(b.getGiorno()))
                             av.setAvaiable(1);
                     }
@@ -138,6 +145,41 @@ public class Booking extends HttpServlet {
         }
     }
 
+    public void getBooked2(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        Gson gson = new Gson();
+        Utente user = null;
+        ArrayList<AvaiableLesson> bookedLs = new ArrayList<>();
+        HttpSession session = HttpSessionCollector.find(request.getParameter("JSESSIONID"));
+        if(session != null) {
+            user = (Utente) session.getAttribute("user");
+            if(user != null){
+                String giorno = request.getParameter("giorno");
+                ArrayList<Prenotazioni> prenotazioni = Prenotazioni.queryDB();
+
+                //Prelevo le prenotazioni dell'utente e le trasformo in un formato leggibile
+                for(Prenotazioni p : prenotazioni) {
+                    if(user.getAccount().equals(Utente.getAccount_byID(p.getUtente()))) {
+                        if(p.getGiorno().equals(giorno)) {
+                            AvaiableLesson a = new AvaiableLesson(p.getCorso(), p.getDocente(), p.getGiorno(), p.getOrario(), p.getStato());
+                            bookedLs.add(a);
+                        }
+                    }
+                }
+            }
+        }else
+            System.out.println("Nessuna sessione trovata ");
+
+        try{
+            String jsonResp = gson.toJson(bookedLs);
+            out.println(jsonResp);
+        }finally {
+            out.flush();
+            out.close();
+        }
+    }
+
     public void changingState(HttpServletRequest request, HttpServletResponse response, String action) throws IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
@@ -155,7 +197,7 @@ public class Booking extends HttpServlet {
                 ArrayList<Prenotazioni> prenotazioni = Prenotazioni.queryDB();
 
                 for(AvaiableLesson av : dismissed) {
-                    Prenotazioni p = Prenotazioni.exist(prenotazioni, av.getCorso(), av.getDocente(), Utente.getId_byUsername(user.getAccount()));
+                    Prenotazioni p = Prenotazioni.exist(prenotazioni, av.getCorso(), av.getDocente(), Utente.getId_byUsername(user.getAccount()), av.getGiorno(), av.getOrario());
                     if(p != null) {
                         switch (action) {
                             case "dismiss":

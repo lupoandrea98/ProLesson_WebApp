@@ -160,12 +160,13 @@ public class Prenotazioni {
 
     //metodo per controllare l'esistenza di una prenotazione
     //Nel caso esista, mi resituirà la prenotazione esistente, altrimenti null
-    public static Prenotazioni exist(ArrayList<Prenotazioni> pren, String corso, String docente, int utente) {
+    public static Prenotazioni exist(ArrayList<Prenotazioni> pren, String corso, String docente, int utente, String giorno, int orario) {
         for(Prenotazioni p : pren) {
-            if(p.getDocente().equals(docente))
-                if(p.getCorso().equals(corso))
-                    if(p.getUtente() == utente)
-                        return p;
+            if(p.getGiorno().equals(giorno) && p.getOrario() == orario)
+                if(p.getDocente().equals(docente))
+                    if(p.getCorso().equals(corso))
+                        if(p.getUtente() == utente)
+                            return p;
         }
         return null;
     }
