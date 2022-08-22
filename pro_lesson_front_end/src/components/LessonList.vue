@@ -16,10 +16,10 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-0">
+            <div class="col-md-0" v-if=this.showButtons>
                 <button class="btn btn-danger my-2 my-sm-0" type="submit" v-on:click="commitDismiss"> Disdici </button> 
             </div>
-            <div class="col-md-0">
+            <div class="col-md-0" v-if=this.showButtons>
                 <button class="btn btn-success my-2 my-sm-0" type="submit" v-on:click="commitDone"> Effettuata </button> 
             </div>
         </div>
@@ -42,7 +42,8 @@ export default({
             selected: [],
             link_lez: "http://localhost:8080/TWEB_war_exploded/api/booking",
             logged: false,
-            dismissed: false
+            dismissed: false,
+            showButtons: false
         }
     },
 
@@ -52,6 +53,11 @@ export default({
     },
 
     methods:{
+        showButtonCancDism: function() {
+            for(let i=0; i<this.prenotazioni.length; i++)
+                if(this.prenotazioni[i].state == "attiva")
+                    this.showButtons = true;
+        },
         requestPren: function() {
             this.sessionid = this.$cookies.get("JSESSIONID");
             var requestData = {
@@ -63,6 +69,7 @@ export default({
             $.get(this.link_lez, requestData, (data) => {
                 
                 this.prenotazioni = data;
+                this.showButtonCancDism();
             
             });
         },
@@ -102,7 +109,7 @@ export default({
                 this.sessionid = this.$cookies.get("JSESSIONID");
             }else
                 this.logged = false;
-        }
+        },
         
     },
 
