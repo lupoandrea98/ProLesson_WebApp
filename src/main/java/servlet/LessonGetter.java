@@ -1,7 +1,6 @@
 package servlet;
 import com.google.gson.Gson;
 import dao.DAO;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

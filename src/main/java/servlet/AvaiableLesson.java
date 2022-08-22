@@ -3,9 +3,6 @@ package servlet;
 import dao.Corso;
 import dao.Docente;
 import dao.Insegnamenti;
-
-import javax.print.Doc;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AvaiableLesson {

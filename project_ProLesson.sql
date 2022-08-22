@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Giu 16, 2022 alle 11:32
+-- Creato il: Ago 22, 2022 alle 12:19
 -- Versione del server: 10.4.22-MariaDB
 -- Versione PHP: 8.1.2
 
@@ -37,13 +37,12 @@ CREATE TABLE `corso` (
 --
 
 INSERT INTO `corso` (`id`, `titolo`) VALUES
-(1, 'algoritmi'),
+(1, 'Algoritmi'),
 (13, 'Diritto'),
-(10, 'Formula'),
-(3, 'informatica'),
-(2, 'matematica'),
-(6, 'psicologia sociale'),
-(4, 'sicurezza');
+(3, 'Informatica'),
+(2, 'Matematica'),
+(6, 'Psicologia Sociale'),
+(4, 'Sicurezza');
 
 -- --------------------------------------------------------
 
@@ -67,7 +66,8 @@ INSERT INTO `docente` (`id`, `nome`, `cognome`) VALUES
 (3, 'Francesco', 'Bozzardini'),
 (9, 'Gaia', 'Panichi'),
 (10, 'Chiara', 'Trotta'),
-(20, 'Valentina', 'Capolupo');
+(20, 'Valentina', 'Capolupo'),
+(21, 'Nicola', 'Fasciglione');
 
 -- --------------------------------------------------------
 
@@ -87,7 +87,9 @@ CREATE TABLE `insegnamento` (
 INSERT INTO `insegnamento` (`corso`, `docente`) VALUES
 (1, 1),
 (2, 2),
-(3, 3),
+(3, 21),
+(4, 3),
+(6, 9),
 (13, 20);
 
 -- --------------------------------------------------------
@@ -105,20 +107,6 @@ CREATE TABLE `prenotazioni` (
   `giorno` enum('Lun','Mar','Mer','Gio','Ven') NOT NULL,
   `orario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `prenotazioni`
---
-
-INSERT INTO `prenotazioni` (`id`, `corso`, `docente`, `utente`, `stato`, `giorno`, `orario`) VALUES
-(30, 'matematica', 'Cannavò', 10, 'disdetta', 'Lun', 15),
-(31, 'informatica', 'DiBitonto', 10, 'effettuata', 'Lun', 15),
-(32, 'sicurezza', 'Bozzardini', 10, 'disdetta', 'Lun', 15),
-(33, 'psicologia sociale', 'Trotta', 10, 'attiva', 'Lun', 18),
-(34, 'sviluppo', 'Panichi', 10, 'effettuata', 'Lun', 18),
-(35, 'matematica', 'Cannavò', 10, 'attiva', 'Gio', 18),
-(36, 'sviluppo', 'Panichi', 10, 'disdetta', 'Mar', 15),
-(37, 'sicurezza', 'Bozzardini', 10, 'attiva', 'Gio', 16);
 
 -- --------------------------------------------------------
 
@@ -139,7 +127,9 @@ CREATE TABLE `utente` (
 
 INSERT INTO `utente` (`id`, `username`, `password`, `isAdmin`) VALUES
 (3, 'giacomo@agg.com', 'rog1', 1),
-(10, 'andrea', 'asd', 1);
+(10, 'Andrea', 'asd', 1),
+(16, 'Nico', 'qwe', 0),
+(18, 'Gianlu', 'zxc', 0);
 
 --
 -- Indici per le tabelle scaricate
@@ -193,19 +183,19 @@ ALTER TABLE `corso`
 -- AUTO_INCREMENT per la tabella `docente`
 --
 ALTER TABLE `docente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT per la tabella `prenotazioni`
 --
 ALTER TABLE `prenotazioni`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT per la tabella `utente`
 --
 ALTER TABLE `utente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Limiti per le tabelle scaricate
