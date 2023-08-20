@@ -1,8 +1,12 @@
 # Progetto TWEB A.A. 2021/2022 
+In questo progetto era richiesta la realizzazione di una single page application per la gestione di 
+lezioni private. Nello specifico, lezioni di varie materie, disponibili alla prenotazione degli utenti 
+nell'arco di una settimana. Inoltre è stata sviluppata una pagina per gli amministratori in grado di 
+gestire corsi, professori e prenotazioni dei vari utenti.
 
-Single page application realizzata in Vue.js per il front-end (Codice nella cartella pro_lesson_front_end).
-Backend realizzato attraverso delle servlet scritte in JAVA.
-Come database è stato usato MySQL, nel repo è presente il dump per tirarlo su.
+Il frontend è stato realizzato in Vue.js (Codice nella cartella pro_lesson_front_end).
+Il backend è stato realizzato attraverso delle servlet JAVA.
+Come database è stato usato MySQL (nel repo è presente il dump per tirarlo su).
 
 Il backend è condiviso con l'applicaizione Android, il cui codice è presente in un altro repo.
 
