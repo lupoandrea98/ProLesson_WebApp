@@ -3,6 +3,8 @@ In questo progetto era richiesta la realizzazione di una single page application
 lezioni private. Nello specifico, lezioni di varie materie, disponibili alla prenotazione degli utenti 
 nell'arco di una settimana. Inoltre è stata sviluppata una pagina per gli amministratori in grado di 
 gestire corsi, professori e prenotazioni dei vari utenti.
+È stato creato un sistema di login per gli utenti/admin ed è stata implementata una gestione per le 
+sessioni utente.
 
 Il frontend è stato realizzato in Vue.js (Codice nella cartella pro_lesson_front_end).
 Il backend è stato realizzato attraverso delle servlet JAVA.
